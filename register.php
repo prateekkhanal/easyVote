@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <span>Citizenship Photo(Back)</span> <input type="file" name="back_image"><br><br>
         <span>Profile Picture</span> <input type="file" name="photo"><br><br>
         <button type="submit">Signup</button>
-			<div style="margin-top: 20px;">Already have an account? <a href="signin.php">Sign In</a></div>
+			<div style="margin-top: 20px;"><i>Already have an account?</i> <a href="signin.php">Sign In</a></div>
     </form>
     
 </body>
