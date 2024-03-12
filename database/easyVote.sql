@@ -1,344 +1,129 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1-1.fc38
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Mar 04, 2024 at 04:23 AM
--- Server version: 10.5.23-MariaDB
--- PHP Version: 8.2.16
-
 CREATE DATABASE IF NOT EXISTS easyVote;
 USE easyVote;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+CREATE TABLE IF NOT EXISTS locations (
+    lid int auto_increment primary key,
+    location_name varchar(100)
+);
 
+CREATE TABLE IF NOT EXISTS roles (
+    rid int auto_increment primary key,
+    title varchar(100)
+);
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+CREATE TABLE IF NOT EXISTS election_type (
+    etid int auto_increment primary key,
+    title varchar(100)
+);
 
---
--- Database: `easyVote`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `candidate`
---
-
-CREATE TABLE `candidate` (
-  `cid` int(11) NOT NULL,
-  `vid` int(11) DEFAULT NULL,
-  `eid` int(11) DEFAULT NULL,
-  `lid` int(11) DEFAULT NULL,
-  `pid` int(11) DEFAULT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `election`
---
-
-CREATE TABLE `election` (
-  `eid` int(11) NOT NULL,
-  `title` varchar(100) DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
-  `lid` int(11) DEFAULT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `election_manager`
---
-
-CREATE TABLE `election_manager` (
-  `emid` int(11) NOT NULL,
-  `vid` int(11) DEFAULT NULL,
-  `eid` int(11) DEFAULT NULL,
-  `rid` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `election_type`
---
-
-CREATE TABLE `election_type` (
-  `etid` int(11) NOT NULL,
-  `title` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `locations`
---
-
-CREATE TABLE `locations` (
-  `lid` int(11) NOT NULL,
-  `location_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `parties`
---
-
-CREATE TABLE `parties` (
-  `pid` int(11) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `eid` int(11) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `logo` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pinned_elections`
---
-
-CREATE TABLE `pinned_elections` (
-  `peid` int(11) NOT NULL,
-  `vid` int(11) DEFAULT NULL,
-  `eid` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `registered_voters`
---
-
-CREATE TABLE `registered_voters` (
-  `rvid` int(11) NOT NULL,
-  `vid` int(11) DEFAULT NULL,
-  `eid` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `roles`
---
-
-CREATE TABLE `roles` (
-  `rid` int(11) NOT NULL,
-  `title` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `voters`
---
-
-CREATE TABLE `voters` (
-  `vid` int(11) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `email` varchar(120) DEFAULT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `lid` int(11) DEFAULT NULL,
-  `citizenship_number` varchar(100) DEFAULT NULL,
-  `front_image` varchar(100) DEFAULT NULL,
-  `back_image` varchar(100) DEFAULT NULL,
-  `photo` varchar(100) DEFAULT NULL,
-  `authentic` enum('yes','no') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `voters`
---
+CREATE TABLE IF NOT EXISTS voters (
+    vid int auto_increment primary key,
+    name varchar(100),
+    email varchar(120),
+    password varchar(100),
+    lid int ,
+    FOREIGN KEY (lid) REFERENCES locations (lid),
+    citizenship_number varchar(100),
+    front_image varchar(100),
+    back_image varchar(100),
+    photo varchar(100),
+	 authentic enum('pending', 'yes', 'no')
+);
 
 INSERT INTO `voters` (`vid`, `name`, `email`, `password`, `lid`, `citizenship_number`, `front_image`, `back_image`, `photo`, `authentic`) VALUES
 (1, 'Pratik Khanal', 'khanalprateek101@gmail.com', '55a6f3e9bd61006125ba266065f28ecb', NULL, NULL, '1709521451_cs_front_1.jpg', '1709521451_cs_back_1.jpg', '1709521451_me.jpg', NULL),
 (2, 'Santosh Mahato', 'santosh@mahato.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709521573_random_1_f.jpg', '1709521573_random_1_b.jpg', '1709521573_random_pp_1.jpg', NULL),
 (3, 'Manish Kumar Shrestha', 'manish@shrestha.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709521640_random_2_f.jpg', '1709521640_random_2_b.jpg', '1709521640_random_pp_1.jpg', NULL);
+(5, 'John Doe', 'john@doe.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709615442_random_1_f.jpg', '1709615442_random_1_b.jpg', '1709615442_random_pp_1.jpg', NULL);
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS election (
+    eid int auto_increment primary key,
+    title varchar(100),
+    start_date date,
+    end_date date,
+    lid int ,
+    FOREIGN KEY (lid) REFERENCES locations (lid),
+    description TEXT(1000)
+);
 
---
--- Table structure for table `votes`
---
+CREATE TABLE IF NOT EXISTS parties (
+    pid int auto_increment primary key,
+    name varchar(100),
+    eid int,
+    description TEXT(1000),
+    logo varchar(100),
+    FOREIGN KEY (eid) REFERENCES election(eid)
+);
 
-CREATE TABLE `votes` (
-  `id` int(11) NOT NULL,
-  `eid` int(11) DEFAULT NULL,
-  `cid` int(11) DEFAULT NULL,
-  `vid` int(11) DEFAULT NULL,
-  `time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE IF NOT EXISTS registered_voters (
+    rvid int auto_increment primary key,
+    vid int ,
+    FOREIGN KEY (vid) REFERENCES voters (vid),
+    eid int ,
+    FOREIGN KEY (eid) REFERENCES election (eid)
+);
 
---
--- Indexes for dumped tables
---
+CREATE TABLE IF NOT EXISTS candidate (
+    cid int auto_increment primary key,
+    vid int ,
+    FOREIGN KEY (vid) REFERENCES voters (vid),
+    eid int ,
+    FOREIGN KEY (eid) REFERENCES election (eid),
+    lid int ,
+    FOREIGN KEY (lid) REFERENCES locations (lid),
+    pid int,
+    FOREIGN KEY (pid) REFERENCES parties(pid),
+    description TEXT(1000)
+);
 
---
--- Indexes for table `candidate`
---
-ALTER TABLE `candidate`
-  ADD PRIMARY KEY (`cid`),
-  ADD KEY `vid` (`vid`),
-  ADD KEY `eid` (`eid`),
-  ADD KEY `lid` (`lid`),
-  ADD KEY `pid` (`pid`);
+CREATE TABLE IF NOT EXISTS votes (
+    id int auto_increment primary key,
+    eid int ,
+    FOREIGN KEY (eid) REFERENCES election (eid),
+    cid int ,
+    FOREIGN KEY (cid) REFERENCES candidate (cid),
+    vid int ,
+    FOREIGN KEY (vid) REFERENCES voters (vid),
+    time timestamp
+);
 
---
--- Indexes for table `election`
---
-ALTER TABLE `election`
-  ADD PRIMARY KEY (`eid`),
-  ADD KEY `lid` (`lid`);
+CREATE TABLE IF NOT EXISTS pinned_elections (
+    peid int auto_increment primary key,
+    vid int ,
+    FOREIGN KEY (vid) REFERENCES voters (vid),
+    eid int ,
+    FOREIGN KEY (eid) REFERENCES election (eid)
+);
 
---
--- Indexes for table `election_manager`
---
-ALTER TABLE `election_manager`
-  ADD PRIMARY KEY (`emid`),
-  ADD KEY `vid` (`vid`),
-  ADD KEY `eid` (`eid`),
-  ADD KEY `rid` (`rid`);
+CREATE TABLE IF NOT EXISTS election_manager (
+    emid int auto_increment primary key,
+    vid int ,
+    FOREIGN KEY (vid) REFERENCES voters (vid),
+    eid int ,
+    FOREIGN KEY (eid) REFERENCES election (eid),
+    rid int ,
+    FOREIGN KEY (rid) REFERENCES roles (rid)
+);
 
---
--- Indexes for table `election_type`
---
-ALTER TABLE `election_type`
-  ADD PRIMARY KEY (`etid`);
+CREATE TABLE IF NOT EXISTS faq (
+	qid int auto_increment primary key,
+	 question varchar(100),
+	 answer varchar(100),
+	 category varchar(100)
+);
 
---
--- Indexes for table `locations`
---
-ALTER TABLE `locations`
-  ADD PRIMARY KEY (`lid`);
-
---
--- Indexes for table `parties`
---
-ALTER TABLE `parties`
-  ADD PRIMARY KEY (`pid`),
-  ADD KEY `eid` (`eid`);
-
---
--- Indexes for table `pinned_elections`
---
-ALTER TABLE `pinned_elections`
-  ADD PRIMARY KEY (`peid`),
-  ADD KEY `vid` (`vid`),
-  ADD KEY `eid` (`eid`);
-
---
--- Indexes for table `registered_voters`
---
-ALTER TABLE `registered_voters`
-  ADD PRIMARY KEY (`rvid`),
-  ADD KEY `vid` (`vid`),
-  ADD KEY `eid` (`eid`);
-
---
--- Indexes for table `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`rid`);
-
---
--- Indexes for table `voters`
---
-ALTER TABLE `voters`
-  ADD PRIMARY KEY (`vid`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `lid` (`lid`);
-
---
--- Indexes for table `votes`
---
-ALTER TABLE `votes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `eid` (`eid`),
-  ADD KEY `cid` (`cid`),
-  ADD KEY `vid` (`vid`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `candidate`
---
-ALTER TABLE `candidate`
-  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `election`
---
-ALTER TABLE `election`
-  MODIFY `eid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `election_manager`
---
-ALTER TABLE `election_manager`
-  MODIFY `emid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `election_type`
---
-ALTER TABLE `election_type`
-  MODIFY `etid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `locations`
---
-ALTER TABLE `locations`
-  MODIFY `lid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `parties`
---
-ALTER TABLE `parties`
-  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `pinned_elections`
---
-ALTER TABLE `pinned_elections`
-  MODIFY `peid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `registered_voters`
---
-ALTER TABLE `registered_voters`
-  MODIFY `rvid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-  MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `voters`
---
-ALTER TABLE `voters`
-  MODIFY `vid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `votes`
---
-ALTER TABLE `votes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO faq (question, answer, category) VALUES ('What is online voting?', 'Online voting is a method of casting ballots using electronic devices connected to the internet. It allows eligible voters to securely submit their votes from any location with internet access, eliminating the need for physical polling stations.', 'General'),
+('Is online voting secure?', 'Online voting systems employ various security measures such as encryption, authentication, and audit trails to ensure the integrity and confidentiality of votes. While no system is entirely risk-free, robust security protocols are implemented to mitigate potential threats.', 'Security'),
+('How are voters authenticated in online voting?', 'Voters are typically authenticated through methods such as unique identifiers (e.g., voter ID numbers), passwords, biometric verification, or two-factor authentication. These measures help ensure that only eligible voters can cast their ballots.', 'Security'),
+('What are the advantages of online voting?', 'Online voting offers several benefits, including increased accessibility for voters with disabilities, convenience for voters who may be unable to physically attend polling stations, cost savings for electoral authorities, and faster tabulation of results.', 'Benefits'),
+('What are the challenges of implementing online voting?', 'Challenges associated with online voting include concerns about the security and integrity of the voting process, the potential for technical glitches or system failures, ensuring inclusivity for voters without internet access or digital literacy, and addressing privacy concerns related to electronic voting systems.', 'Challenges'),
+('Can online voting be tampered with?', 'Online voting systems are designed with multiple layers of security to prevent tampering. However, like any technology, they are not immune to potential threats. Measures such as end-to-end encryption, robust authentication mechanisms, and rigorous auditing help mitigate the risk of tampering.', 'Security'),
+('Are online voting systems vulnerable to hacking?', 'Online voting systems are subject to cybersecurity threats like any internet-connected technology. To mitigate the risk of hacking, voting systems employ encryption, firewalls, intrusion detection systems, and regular security updates. Additionally, independent security audits and rigorous testing are conducted to identify and address vulnerabilities.', 'Security'),
+('How can voters verify that their votes are counted correctly in online voting?', 'Online voting systems often provide voters with a unique confirmation code or receipt after they cast their ballots. Additionally, some systems allow voters to verify their votes through online portals or by contacting election authorities. Transparency measures such as public auditing of voting software and cryptographic proofs may also enhance voter confidence in the accuracy of the electoral process.', 'Security'),
+('What measures are in place to prevent voter coercion in online voting?', 'To prevent voter coercion, online voting systems may incorporate features such as secret ballots, which ensure that individual voting choices remain confidential. Additionally, measures such as voter authentication, audit trails, and penalties for coercion or voter fraud help safeguard the integrity of the voting process.', 'Security'),
+('Can online voting accommodate voters with disabilities?', 'Yes, online voting can enhance accessibility for voters with disabilities by offering features such as screen readers, adaptive interfaces, and alternative input methods. Accessibility guidelines and standards are often integrated into the design of online voting systems to ensure inclusivity for all voters.', 'Accessibility'),
+('What steps are taken to protect voter privacy in online voting?', 'Online voting systems employ encryption and anonymization techniques to protect the privacy of voter data. Personal information is typically stored securely and is only accessible to authorized personnel. Additionally, strict data protection regulations and privacy policies govern the handling of voter information.', 'Privacy'),
+('Are there any age restrictions for online voting?', 'Age restrictions for online voting vary depending on the jurisdiction and the specific electoral regulations in place. In many cases, eligible voters must meet the minimum voting age requirement established by law to participate in online voting.', 'General'),
+('What role do election officials play in online voting?', 'Election officials oversee the administration of online voting processes, including voter registration, ballot distribution, technical support, and results tabulation. They are responsible for ensuring the integrity, security, and fairness of the electoral process.', 'General'),
+('How are disputes or irregularities addressed in online voting?', 'Disputes or irregularities in online voting may be addressed through mechanisms such as independent audits, recounts, investigations by electoral authorities, or legal challenges. Transparency, accountability, and adherence to established electoral procedures are essential for resolving issues and maintaining public trust in the integrity of the electoral process.', 'General'),
+('Can online voting increase voter turnout?', 'Online voting has the potential to increase voter turnout by offering greater accessibility and convenience for voters. By eliminating barriers such as geographical constraints and long wait times at polling stations, online voting may encourage more people to participate in the electoral process.', 'General');
