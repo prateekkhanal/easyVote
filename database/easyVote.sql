@@ -60,7 +60,8 @@ CREATE TABLE IF NOT EXISTS registered_voters (
     vid int ,
     FOREIGN KEY (vid) REFERENCES voters (vid),
     eid int ,
-    FOREIGN KEY (eid) REFERENCES election (eid)
+    FOREIGN KEY (eid) REFERENCES election (eid),
+	 authenticated enum('pending', 'yes', 'no')
 );
 
 CREATE TABLE IF NOT EXISTS candidate (
