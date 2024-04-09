@@ -41,7 +41,7 @@ h1 {color: white;}
 				<a class="sidebar-item left-sidebar-item" href="#">Dashboard</a><br>
 				<a class="sidebar-item left-sidebar-item" href="#">Contact Us</a><br>
 				<a class="sidebar-item left-sidebar-item" href="#">About Us</a><br>
-				<a class="sidebar-item left-sidebar-item" href="#">FAQ</a><br>
+				<a class="sidebar-item left-sidebar-item" href="./includes/backend/admin/faq.php">FAQ</a><br>
 				<a class="sidebar-item left-sidebar-item" href="#">Profile</a><br>
 
 			</div>
