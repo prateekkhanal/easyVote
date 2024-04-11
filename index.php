@@ -1,3 +1,6 @@
+<?php
+		session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,12 +45,11 @@ h1 {color: white;}
 				<a class="sidebar-item left-sidebar-item" href="#">Contact Us</a><br>
 				<a class="sidebar-item left-sidebar-item" href="#">About Us</a><br>
 				<a class="sidebar-item left-sidebar-item" href="./includes/backend/admin/faq.php">FAQ</a><br>
-				<a class="sidebar-item left-sidebar-item" href="#">Profile</a><br>
+				<a class="sidebar-item left-sidebar-item" href="./includes/backend/admin/profile.php?vid=<?php echo $_SESSION['vid'];?>">Profile</a><br>
 
 			</div>
 		  <div class="main-content">
 			<?php
-			session_start();
 			if (isset($_SESSION['name'])) {
 				echo "<h1>Hello, " . $_SESSION['name'] . "!</h1>";
 			} else {

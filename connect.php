@@ -3,7 +3,7 @@
 $host="localhost";
 $user="admin";
 $password="admin";
-$db="easyvote";
+$db="easyVote";
 
 $conn = mysqli_connect($host,$user,$password,$db);
 
