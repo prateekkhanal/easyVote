@@ -1,0 +1,118 @@
+
+Long Questions:
+
+Q1. What is operator precidence and operator associativity in java? 
+
+Q2. Explain operators in Java.
+
+Q3. Explain data types in Java.
+
+Q4. What is variable? Explain its types in Java.
+
+
+---------------------------------------------------------------
+Multiple Choice Questions:
+
+1. Which component is used to compile, debug and execute java program?
+a) JVM
+b) JDK
+c) JIT
+d) JRE
+
+2. Which component is responsible for converting bytecode into machine specific code?
+a) JVM
+b) JDK
+c) JIT
+d) JRE
+
+3. What is the extension of compiled java classes?
+a) .class
+b) .java
+c) .txt
+d) .js
+
+4. Which component is responsible to optimize bytecode to machine code?
+a) JVM
+b) JDK
+c) JIT
+d) JRE
+
+5. What is the range of short data type in Java?
+a) -128 to 127
+b) -32768 to 32767
+c) -2147483648 to 2147483647
+d) None of the mentioned
+
+6. An expression involving byte, int, and literal numbers is promoted to which of these?
+a) int
+b) long
+c) byte
+d) float
+
+7. Which of these literals can be contained in float data type variable?
+a) -1.7e+308
+b) -3.4e+038
+c) +1.7e+308
+d) -3.4e+050
+
+
+8. What is the numerical range of a char data type in Java?
+a) -128 to 127
+b) 0 to 256
+c) 0 to 32767
+d) 0 to 65535
+
+9. Which of these coding types is used for data type characters in Java?
+a) ASCII
+b) ISO-LATIN-1
+c) UNICODE
+d) None of the mentioned
+
+10. Which of these values can a boolean variable contain?
+a) True & False
+b) 0 & 1
+c) Any integer value
+d) true
+
+11. Which of these can be returned by the operator &?
+a) Integer
+b) Boolean
+c) Character
+d) Integer or Boolean
+
+12. Which of these is long data type literal?
+a) 0x99fffL
+b) ABCDEFG
+c) 0x99fffa
+d) 99671246
+
+13. Which of these can not be used for a variable name in Java?
+a) identifier
+b) keyword
+c) identifier & keyword
+d) none of the mentioned
+
+14. Which of the following can be operands of arithmetic operators?
+a) Numeric
+b) Boolean
+c) Characters
+d) Both Numeric & Characters
+
+15. Which of these is not a bitwise operator?
+a) &
+b) &=
+c) |=
+d) <=
+
+16. What is the output of relational operators?
+a) Integer
+b) Boolean
+c) Characters
+d) Double
+
+
+
+
+
+
+
