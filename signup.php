@@ -37,6 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password_1 = $_POST['password_1'];
     $password_2 = $_POST['password_2'];
+	 $voterID = uniqid();
+	 $citizenship_number = $_POST['citizenship-number'];
 
     if (empty($name) || empty($email) || empty($password_1) || empty($password_2)) {
         echo "All fields are required.";
@@ -54,17 +56,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($frontImage && $backImage && $profilePicture) {
             // Insert into database
-            $sql = "INSERT INTO voters (name, email, password, front_image, back_image, photo) VALUES (?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO voters (name, email, password, front_image, back_image, citizenship_number, voterID, photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssssss", $name, $email, md5($password_1), $frontImage, $backImage, $profilePicture);
+            $stmt->bind_param("ssssss", $name, $email, md5($password_1), $frontImage, $backImage, $citizenship_number, $voterID, $profilePicture);
             
             if ($stmt->execute()) {
-                echo "Signup successful.";
+                $_SESSION['msg-success'] = "Signup successful.";
             } else {
-                echo "Error occurred while signing up.";
+                $_SESSION['msg-error'] = "Error occurred while signing up.";
             }
         } else {
-            echo "Error uploading files.";
+            $_SESSION['msg-error'] = "Error uploading files.";
         }
     }
 }
@@ -90,6 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- files -->
         <span>Citizenship Photo(Front)</span> <input type="file" name="front_image" required><br><br>
         <span>Citizenship Photo(Back)</span> <input type="file" name="back_image" required><br><br>
+        <label for="citizenship_number">Citizenship-number</label><br>
+        <input type="text" name="citizenship_number" id="citizenship_number" placeholder="Your Citizenship-Number" required><span></span><br><br>
         <span>Profile Picture</span> <input type="file" name="photo" required><br><br>
         <button type="submit">Signup</button>
         <div style="margin-top: 20px;"><i>Already have an account?</i> <a href="signin.php">Sign In</a></div>

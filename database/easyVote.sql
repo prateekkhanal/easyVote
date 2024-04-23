@@ -24,11 +24,12 @@ CREATE TABLE IF NOT EXISTS voters (
     password varchar(100),
     lid int ,
     FOREIGN KEY (lid) REFERENCES locations (lid),
-    citizenship_number varchar(100),
+    citizenship_number varchar(100) unique,
     front_image varchar(100),
     back_image varchar(100),
     photo varchar(100),
-    authentic enum('pending', 'yes', 'no')
+	 voterID varchar(100) unique,
+    authentic enum('pending', 'yes', 'no') default 'pending'
 );
 
 CREATE TABLE IF NOT EXISTS election (
@@ -110,6 +111,86 @@ CREATE TABLE IF NOT EXISTS faq (
 	 category varchar(100)
 );
 
+INSERT INTO locations (location_name)
+VALUES
+('Kathmandu'),
+('Pokhara'),
+('Bagmati'),
+('Banke'),
+('Bara'),
+('Bardiya'),
+('Bhaktapur'),
+('Bhojpur'),
+('Chitwan'),
+('Dadeldhura'),
+('Dailekh'),
+('Dang'),
+('Darchula'),
+('Dhading'),
+('Dhankuta'),
+('Dhanusha'),
+('Dolakha'),
+('Dolpa'),
+('Doti'),
+('Gorkha'),
+('Gulmi'),
+('Humla'),
+('Ilam'),
+('Jajarkot'),
+('Jhapa'),
+('Jumla'),
+('Kailali'),
+('Kalikot'),
+('Kamalapur'),
+('Kanchanpur'),
+('Kapilvastu'),
+('Kaski'),
+('Kavrepalanchok'),
+('Khotang'),
+('Lalitpur'),
+('Lamjung'),
+('Mahottari'),
+('Makwanpur'),
+('Manang'),
+('Mansahari'),
+('Morang'),
+('Mugu'),
+('Mustang'),
+('Myagdi'),
+('Nawalparasi East'),
+('Nawalparasi West'),
+('Nepalgunj'),
+('Nuwakot'),
+('Okhaldhunga'),
+('Palpa'),
+('Panchthar'),
+('Parbat'),
+('Parsa'),
+('Pyuthan'),
+('Ramechhap'),
+('Rasuwa'),
+('Rautahat'),
+('Rolpa'),
+('Rukum East'),
+('Rukum West'),
+('Salyan'),
+('Sankhuwasabha'),
+('Saptari'),
+('Sarlahi'),
+('Sindhuli'),
+('Sindhupalchok'),
+('Siraha'),
+('Solukhumbu'),
+('Sunsari'),
+('Surkhet'),
+('Syangja'),
+('Tanahu'),
+('Taplejung'),
+('Terhathum'),
+('Udayapur'),
+('Western Rukum');
+
+
 INSERT INTO faq (question, answer, category) VALUES ('What is online voting?', 'Online voting is a method of casting ballots using electronic devices connected to the internet. It allows eligible voters to securely submit their votes from any location with internet access, eliminating the need for physical polling stations.', 'General'),
 ('Is online voting secure?', 'Online voting systems employ various security measures such as encryption, authentication, and audit trails to ensure the integrity and confidentiality of votes. While no system is entirely risk-free, robust security protocols are implemented to mitigate potential threats.', 'Security'),
 ('How are voters authenticated in online voting?', 'Voters are typically authenticated through methods such as unique identifiers (e.g., voter ID numbers), passwords, biometric verification, or two-factor authentication. These measures help ensure that only eligible voters can cast their ballots.', 'Security'),
@@ -128,8 +209,8 @@ INSERT INTO faq (question, answer, category) VALUES ('What is online voting?', '
 
 
 
-INSERT INTO `voters` (`name`, `age`, `email`, `password`, `lid`, `citizenship_number`, `front_image`, `back_image`, `photo`, `authentic`) VALUES
-('Pratik Khanal', 21, 'khanalprateek101@gmail.com', '55a6f3e9bd61006125ba266065f28ecb', NULL, NULL, '1709521451_cs_front_1.jpg', '1709521451_cs_back_1.jpg', '1709521451_me.jpg', NULL),
-('Santosh Mahato', 22, 'santosh@mahato.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709521573_random_1_f.jpg', '1709521573_random_1_b.jpg', '1709521573_random_pp_1.jpg', NULL),
-('Manish Kumar Shrestha', 20, 'manish@shrestha.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709521640_random_2_f.jpg', '1709521640_random_2_b.jpg', '1709521640_random_pp_1.jpg', NULL),
-('John Doe', 32, 'john@doe.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709615442_random_1_f.jpg', '1709615442_random_1_b.jpg', '1709615442_random_pp_1.jpg', NULL);
+INSERT INTO `voters` (`name`, `age`, `email`, `password`, `lid`, `citizenship_number`, `front_image`, `back_image`, `photo`, `voterID`, `authentic`) VALUES
+('Pratik Khanal', 21, 'khanalprateek101@gmail.com', '55a6f3e9bd61006125ba266065f28ecb', NULL, '52-06-76-02831', '1709521451_cs_front_1.jpg', '1709521451_cs_back_1.jpg', '1709521451_me.jpg', '6627a56fe55b1', 'yes'),
+('Santosh Mahato', 22, 'santosh@mahato.com', '46de911433c0cd709639ae505f0ecc36', NULL, '52-06-76-02843', '1709521573_random_1_f.jpg', '1709521573_random_1_b.jpg', '1709521573_random_pp_1.jpg', '6627a5d924f09', 'yes'),
+('Manish Kumar Shrestha', 20, 'manish@shrestha.com', '46de911433c0cd709639ae505f0ecc36', NULL, '52-06-34-02831', '1709521640_random_2_f.jpg', '1709521640_random_2_b.jpg', '1709521640_random_pp_1.jpg', '6627a5ee7f027', 'pending'),
+('John Doe', 32, 'john@doe.com', '46de911433c0cd709639ae505f0ecc36', NULL, '32-06-76-02831', '1709615442_random_1_f.jpg', '1709615442_random_1_b.jpg', '1709615442_random_pp_1.jpg', '6627a5fff1347', 'no');

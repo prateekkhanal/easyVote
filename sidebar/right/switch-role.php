@@ -1,7 +1,7 @@
 <?php
 	session_start();
-   include "../../includes/display_message.php";
    include "../../includes/regular_functions.php";
+	displayMessage();
 	
 	// if user isn't signned in, redirect to the login page
 	if (!isset($_SESSION['role'])) {

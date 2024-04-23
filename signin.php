@@ -4,7 +4,7 @@ session_start(); // Start session
 include "./includes/regular_functions.php";
 
 // print any errors
-include "./includes/display_message.php";
+displayMessage();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Include database connection

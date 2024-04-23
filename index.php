@@ -45,7 +45,7 @@ h1 {color: white;}
 				<a class="sidebar-item left-sidebar-item" href="./includes/backend/lib/contactus.php">Contact Us</a><br>
 				<a class="sidebar-item left-sidebar-item" href="#">About Us</a><br>
 				<a class="sidebar-item left-sidebar-item" href="./includes/backend/admin/faq.php">FAQ</a><br>
-				<a class="sidebar-item left-sidebar-item" href="./includes/backend/admin/profile.php?vid=<?php echo $_SESSION['vid'];?>">Profile</a><br>
+				<a class="sidebar-item left-sidebar-item" href="./includes/backend/profile.php">Profile</a><br>
 
 			</div>
 		  <div class="main-content">
