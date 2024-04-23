@@ -1,6 +1,11 @@
 <?php
 session_start(); // Start session
 
+include "./includes/regular_functions.php";
+
+// print any errors
+include "./includes/display_message.php";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Include database connection
     include "connect.php";
@@ -15,6 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Password must be at least 4 characters long and contain a capital letter, a small letter, a number, and a symbol
         return preg_match('/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){4,}$/', $password);
     }
+
     // Retrieve form data
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -37,9 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['email'] = $row['email'];
             $_SESSION['vid'] = $row['vid'];
             $_SESSION['name'] = $row['name'];
-            // Redirect to index.php
-            header("Location: index.php");
-            exit();
+            $_SESSION['role'] = 'voter';
+            // Redirect to the previous page or index.php if not set
+            redirectBack('/easyVote/index.php');
         } else {
             // Invalid credentials
             echo "Invalid email or password.";
@@ -48,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close database connection
     $conn->close();
 }
+
 ?>
 <!DOCTYPE html>
 <html>

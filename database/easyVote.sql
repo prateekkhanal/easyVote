@@ -3,7 +3,7 @@ USE easyVote;
 
 CREATE TABLE IF NOT EXISTS locations (
     lid int auto_increment primary key,
-    location_name varchar(100)
+    location_name varchar(100) UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS roles (
@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS election_type (
 CREATE TABLE IF NOT EXISTS voters (
     vid int auto_increment primary key,
     name varchar(100),
+    age int(11),
     email varchar(120),
     password varchar(100),
     lid int ,
@@ -27,14 +28,8 @@ CREATE TABLE IF NOT EXISTS voters (
     front_image varchar(100),
     back_image varchar(100),
     photo varchar(100),
-	 authentic enum('pending', 'yes', 'no')
+    authentic enum('pending', 'yes', 'no')
 );
-
-INSERT INTO `voters` (`vid`, `name`, `email`, `password`, `lid`, `citizenship_number`, `front_image`, `back_image`, `photo`, `authentic`) VALUES
-(1, 'Pratik Khanal', 'khanalprateek101@gmail.com', '55a6f3e9bd61006125ba266065f28ecb', NULL, NULL, '1709521451_cs_front_1.jpg', '1709521451_cs_back_1.jpg', '1709521451_me.jpg', NULL),
-(2, 'Santosh Mahato', 'santosh@mahato.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709521573_random_1_f.jpg', '1709521573_random_1_b.jpg', '1709521573_random_pp_1.jpg', NULL),
-(3, 'Manish Kumar Shrestha', 'manish@shrestha.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709521640_random_2_f.jpg', '1709521640_random_2_b.jpg', '1709521640_random_pp_1.jpg', NULL);
-(5, 'John Doe', 'john@doe.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709615442_random_1_f.jpg', '1709615442_random_1_b.jpg', '1709615442_random_pp_1.jpg', NULL);
 
 CREATE TABLE IF NOT EXISTS election (
     eid int auto_increment primary key,
@@ -74,6 +69,7 @@ CREATE TABLE IF NOT EXISTS candidate (
     FOREIGN KEY (lid) REFERENCES locations (lid),
     pid int,
     FOREIGN KEY (pid) REFERENCES parties(pid),
+	 verified enum('pending', 'accepted', 'rejected') DEFAULT 'pending',
     description TEXT(1000)
 );
 
@@ -85,7 +81,7 @@ CREATE TABLE IF NOT EXISTS votes (
     FOREIGN KEY (cid) REFERENCES candidate (cid),
     vid int ,
     FOREIGN KEY (vid) REFERENCES voters (vid),
-    time timestamp
+    `time` timestamp
 );
 
 CREATE TABLE IF NOT EXISTS pinned_elections (
@@ -103,13 +99,14 @@ CREATE TABLE IF NOT EXISTS election_manager (
     eid int ,
     FOREIGN KEY (eid) REFERENCES election (eid),
     rid int ,
-    FOREIGN KEY (rid) REFERENCES roles (rid)
+	FOREIGN KEY (rid) REFERENCES roles (rid),
+	verified enum('pending', 'accepted', 'rejected') DEFAULT 'rejected'
 );
 
 CREATE TABLE IF NOT EXISTS faq (
 	qid int auto_increment primary key,
-	 question varchar(100),
-	 answer varchar(100),
+	 question TEXT,
+	 answer LONGTEXT,
 	 category varchar(100)
 );
 
@@ -128,3 +125,11 @@ INSERT INTO faq (question, answer, category) VALUES ('What is online voting?', '
 ('What role do election officials play in online voting?', 'Election officials oversee the administration of online voting processes, including voter registration, ballot distribution, technical support, and results tabulation. They are responsible for ensuring the integrity, security, and fairness of the electoral process.', 'General'),
 ('How are disputes or irregularities addressed in online voting?', 'Disputes or irregularities in online voting may be addressed through mechanisms such as independent audits, recounts, investigations by electoral authorities, or legal challenges. Transparency, accountability, and adherence to established electoral procedures are essential for resolving issues and maintaining public trust in the integrity of the electoral process.', 'General'),
 ('Can online voting increase voter turnout?', 'Online voting has the potential to increase voter turnout by offering greater accessibility and convenience for voters. By eliminating barriers such as geographical constraints and long wait times at polling stations, online voting may encourage more people to participate in the electoral process.', 'General');
+
+
+
+INSERT INTO `voters` (`name`, `age`, `email`, `password`, `lid`, `citizenship_number`, `front_image`, `back_image`, `photo`, `authentic`) VALUES
+('Pratik Khanal', 21, 'khanalprateek101@gmail.com', '55a6f3e9bd61006125ba266065f28ecb', NULL, NULL, '1709521451_cs_front_1.jpg', '1709521451_cs_back_1.jpg', '1709521451_me.jpg', NULL),
+('Santosh Mahato', 22, 'santosh@mahato.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709521573_random_1_f.jpg', '1709521573_random_1_b.jpg', '1709521573_random_pp_1.jpg', NULL),
+('Manish Kumar Shrestha', 20, 'manish@shrestha.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709521640_random_2_f.jpg', '1709521640_random_2_b.jpg', '1709521640_random_pp_1.jpg', NULL),
+('John Doe', 32, 'john@doe.com', '46de911433c0cd709639ae505f0ecc36', NULL, NULL, '1709615442_random_1_f.jpg', '1709615442_random_1_b.jpg', '1709615442_random_pp_1.jpg', NULL);

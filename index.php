@@ -62,7 +62,7 @@ h1 {color: white;}
 			   <div class="right-sidebar">
 				<a class="sidebar-item right-sidebar-item" href="#">Create an election</a><br>
 				<a class="sidebar-item right-sidebar-item" href="#">Participated Elections</a><br>
-				<a class="sidebar-item right-sidebar-item" href="#">Switch Role</a><br>
+				<a class="sidebar-item right-sidebar-item" href="./sidebar/right/switch-role.php">Switch Role</a><br>
 					<a href="logout.php" class="sidebar-item right-sidebar-item">Logout</a>
 				</div>
 		 </div>
