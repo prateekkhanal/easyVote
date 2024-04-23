@@ -19,4 +19,9 @@
 			header("Location: " . $backup);
 		}
 	}
+
+	function role() {
+		return isset($_SESSION['role']) ? $_SESSION['role'] : '';
+	}
+
 ?>
