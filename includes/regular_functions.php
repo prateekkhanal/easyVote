@@ -24,6 +24,10 @@
 		return isset($_SESSION['role']) ? $_SESSION['role'] : '';
 	}
 
+	function setRole($role) {
+		$_SESSION['role'] = $role;
+	}
+
 	function displayMessage() {
 		if (isset($_SESSION['msg-error'])) {
 			echo "<p style=\"background-color: red; color: white; padding:10px; border-radius: 10px;\"><b><big>" . "ERROR : " . $_SESSION['msg-error']. "</big></b></p>";

@@ -6,9 +6,10 @@ CREATE TABLE IF NOT EXISTS locations (
     location_name varchar(100) UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS roles (
+CREATE TABLE IF NOT EXISTS admins (
     rid int auto_increment primary key,
-    title varchar(100)
+	 vid int,
+	 FOREIGN KEY (vid) REFERENCES voters (vid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS election_type (
@@ -34,16 +35,24 @@ CREATE TABLE IF NOT EXISTS voters (
 
 CREATE TABLE IF NOT EXISTS election (
     eid int auto_increment primary key,
+	 vid int,
+	 FOREIGN KEY (vid) REFERENCES voters (vid) ON DELETE CASCADE ON UPDATE CASCADE,
     title varchar(100),
+	 position varchar(100),
+	 level enum('custom', 'national', 'international', 'pending') DEFAULT 'custom',
     start_date date,
     end_date date,
+	 start_time time,
+	 end_time time,
     lid int ,
     FOREIGN KEY (lid) REFERENCES locations (lid),
-    description TEXT(1000)
+	 electionID varchar(100) unique,
+	 description TEXT(1000)
 );
 
 CREATE TABLE IF NOT EXISTS parties (
     pid int auto_increment primary key,
+	 partyID varchar(100) UNIQUE,
     name varchar(100),
     eid int,
     description TEXT(1000),
@@ -99,8 +108,6 @@ CREATE TABLE IF NOT EXISTS election_manager (
     FOREIGN KEY (vid) REFERENCES voters (vid),
     eid int ,
     FOREIGN KEY (eid) REFERENCES election (eid),
-    rid int ,
-	FOREIGN KEY (rid) REFERENCES roles (rid),
 	verified enum('pending', 'accepted', 'rejected') DEFAULT 'rejected'
 );
 
@@ -214,3 +221,6 @@ INSERT INTO `voters` (`name`, `age`, `email`, `password`, `lid`, `citizenship_nu
 ('Santosh Mahato', 22, 'santosh@mahato.com', '46de911433c0cd709639ae505f0ecc36', NULL, '52-06-76-02843', '1709521573_random_1_f.jpg', '1709521573_random_1_b.jpg', '1709521573_random_pp_1.jpg', '6627a5d924f09', 'yes'),
 ('Manish Kumar Shrestha', 20, 'manish@shrestha.com', '46de911433c0cd709639ae505f0ecc36', NULL, '52-06-34-02831', '1709521640_random_2_f.jpg', '1709521640_random_2_b.jpg', '1709521640_random_pp_1.jpg', '6627a5ee7f027', 'pending'),
 ('John Doe', 32, 'john@doe.com', '46de911433c0cd709639ae505f0ecc36', NULL, '32-06-76-02831', '1709615442_random_1_f.jpg', '1709615442_random_1_b.jpg', '1709615442_random_pp_1.jpg', '6627a5fff1347', 'no');
+
+INSERT INTO `admins` (`vid`) VALUES (1, 2)
+

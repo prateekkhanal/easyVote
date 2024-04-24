@@ -1,5 +1,6 @@
 <?php
 		session_start();
+		include "./includes/regular_functions.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,17 +51,18 @@ h1 {color: white;}
 			</div>
 		  <div class="main-content">
 			<?php
-			if (isset($_SESSION['name'])) {
-				echo "<h1>Hello, " . $_SESSION['name'] . "!</h1>";
-			} else {
-				echo "<h1>Hello, This is easyVote!</h1>";
-			}
-		?>
+				displayMessage();
+				if (isset($_SESSION['name'])) {
+					echo "<h1>Hello, " . $_SESSION['name'] . "!</h1>";
+				} else {
+					echo "<h1>Hello, This is easyVote!</h1>";
+				}
+			?>
 
 
 		</div>
 			   <div class="right-sidebar">
-				<a class="sidebar-item right-sidebar-item" href="#">Create an election</a><br>
+				<a class="sidebar-item right-sidebar-item" href="./sidebar/right/create-election.php">Create an election</a><br>
 				<a class="sidebar-item right-sidebar-item" href="#">Participated Elections</a><br>
 				<a class="sidebar-item right-sidebar-item" href="./sidebar/right/switch-role.php">Switch Role</a><br>
 					<a href="logout.php" class="sidebar-item right-sidebar-item">Logout</a>
