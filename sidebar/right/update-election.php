@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	include "../../includes/regular_functions.php";
+	include "view-election.php";
 	displayMessage();
 
 	require "../../connect.php";
@@ -14,6 +15,7 @@
 		$title = $_POST['title'];
 		$position = $_POST['position'];
 		$level = $_POST['level'];
+		$view = $_POST['view'];
 		$start_date = $_POST['start_date'];
 		$end_date = $_POST['end_date'];
 		$start_time = $_POST['start_time'];
@@ -21,7 +23,7 @@
 		$lid = $_POST['location'];
 		$description = $_POST['description'];
 
-		$sql = "UPDATE election SET title='$title', position='$position', level='$level', start_date='$start_date', end_date='$end_date', start_time='$start_time', end_time='$end_time', lid=$lid, description='$description' WHERE electionID='$eid';";
+		$sql = "UPDATE election SET title='$title', position='$position', view='$view', level='$level', start_date='$start_date', end_date='$end_date', start_time='$start_time', end_time='$end_time', lid=$lid, description='$description' WHERE electionID='$eid';";
 		$result = mysqli_query($conn, $sql);
 
 		if ($result) {
@@ -39,7 +41,7 @@
 	$row = $result->fetch_assoc();
 ?>
 
-<div style="border:2px; background-color:lightgray; padding: 15px; width: max-content; border-radius: 7px; ">
+<div style="border:2px; background-color:lightgray; margin:auto; padding: 15px; width: max-content; border-radius: 7px; ">
 <h1>Update Election</h1>
 	<form action="?eid=<?=$eid?>&oldTitle=<?=$row['title']?>" method="POST">
 		<label for="title">Title: </label><br>
@@ -52,6 +54,12 @@
 		<select id="level" name="level">
 			<option value="custom" <?= ($row['level'] == 'custom') ? 'selected' : '' ?>>Custom</option>
 			<option value="pending" <?= ($row['level'] == 'pending') ? 'selected' : '' ?>>Request for National/International</option>
+		</select><br><br>
+
+		<label for="view">View: </label><br>
+		<select id="view" name="view">
+			<option value="private" <?= ($row['view'] == 'private') ? 'selected' : '' ?>>Private</option>
+			<option value="public" <?= ($row['view'] == 'public') ? 'selected' : '' ?>>Public</option>
 		</select><br><br>
 
 		<label for="start_date">Start Date: </label><br>

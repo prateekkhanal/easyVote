@@ -39,7 +39,8 @@ CREATE TABLE IF NOT EXISTS election (
 	 FOREIGN KEY (vid) REFERENCES voters (vid) ON DELETE CASCADE ON UPDATE CASCADE,
     title varchar(100),
 	 position varchar(100),
-	 level enum('custom', 'national', 'international', 'pending') DEFAULT 'custom',
+	 `level` enum('custom', 'national', 'international', 'pending') DEFAULT 'custom',
+	 `view` enum('private', 'public') DEFAULT 'private',
     start_date date,
     end_date date,
 	 start_time time,
@@ -47,17 +48,30 @@ CREATE TABLE IF NOT EXISTS election (
     lid int ,
     FOREIGN KEY (lid) REFERENCES locations (lid),
 	 electionID varchar(100) unique,
-	 description TEXT(1000)
+	 description TEXT(1000),
+	`authentication` ENUM('anyone', 'verified', 'location', 'chosen') NOT NULL DEFAULT 'anyone'
+);
+
+CREATE TABLE IF NOT EXISTS roles(
+    rid INT AUTO_INCREMENT PRIMARY KEY,
+    position varchar(100),
+    place varchar(100),
+    eid varchar(100),
+	`make_request` ENUM('anyone', 'verified', 'location', 'chosen') DEFAULT 'anyone',
+	description TEXT,
+    FOREIGN KEY (eid) REFERENCES election (electionID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS parties (
     pid int auto_increment primary key,
 	 partyID varchar(100) UNIQUE,
     name varchar(100),
-    eid int,
+    eid varchar(100) unique,
     description TEXT(1000),
     logo varchar(100),
-    FOREIGN KEY (eid) REFERENCES election(eid)
+	 status enum('open', 'closed'),
+	 verified enum('pending', 'verified', 'rejected'),
+    FOREIGN KEY (eid) REFERENCES election(electionID)
 );
 
 CREATE TABLE IF NOT EXISTS registered_voters (
@@ -69,7 +83,7 @@ CREATE TABLE IF NOT EXISTS registered_voters (
 	 authenticated enum('pending', 'yes', 'no')
 );
 
-CREATE TABLE IF NOT EXISTS candidate (
+/*CREATE TABLE IF NOT EXISTS candidate (
     cid int auto_increment primary key,
     vid int ,
     FOREIGN KEY (vid) REFERENCES voters (vid),
@@ -82,15 +96,29 @@ CREATE TABLE IF NOT EXISTS candidate (
 	 verified enum('pending', 'accepted', 'rejected') DEFAULT 'pending',
     description TEXT(1000)
 );
-
+*/
+CREATE TABLE IF NOT EXISTS candidate(
+    cid INT AUTO_INCREMENT PRIMARY KEY,
+	 candidateID varchar(100) unique,
+    vid varchar(100),
+    FOREIGN KEY (vid) REFERENCES voters (voterID) ON DELETE CASCADE ON UPDATE CASCADE,
+    eid varchar(100),
+    FOREIGN KEY (eid) REFERENCES election (electionID) ON DELETE CASCADE ON UPDATE CASCADE,
+    pid varchar(100),
+    FOREIGN KEY (pid) REFERENCES parties (partyID) ON DELETE CASCADE ON UPDATE CASCADE,
+    rid int,
+    FOREIGN KEY (rid) REFERENCES roles (rid) ON DELETE CASCADE ON UPDATE CASCADE,
+    lid int,
+    FOREIGN KEY (lid) REFERENCES locations (lid) ON DELETE CASCADE ON UPDATE CASCADE,
+    verified enum('pending', 'accepted', 'rejected') DEFAULT 'pending',
+    description TEXT
+);
 CREATE TABLE IF NOT EXISTS votes (
     id int auto_increment primary key,
-    eid int ,
-    FOREIGN KEY (eid) REFERENCES election (eid),
-    cid int ,
-    FOREIGN KEY (cid) REFERENCES candidate (cid),
-    vid int ,
-    FOREIGN KEY (vid) REFERENCES voters (vid),
+    cid varchar(100),
+    FOREIGN KEY (cid) REFERENCES candidate (candidateID),
+    vid varchar(100),
+    FOREIGN KEY (vid) REFERENCES voters (voterID),
     `time` timestamp
 );
 

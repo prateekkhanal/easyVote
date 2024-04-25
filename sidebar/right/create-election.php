@@ -11,6 +11,7 @@
 		 $title = $_POST['title'];
 		 $position = $_POST['position'];
 		 $level = $_POST['level'];
+		 $view = $_POST['view'];
 		 $start_date = $_POST['start_date'];
 		 $end_date = $_POST['end_date'];
 		 $start_time = $_POST['start_time'];
@@ -19,7 +20,7 @@
 		 $electionID = uniqid();
 		 $description = $_POST['description'];
 
-		 $sql = "INSERT INTO election (vid, title, position, level, start_date, end_date, start_time, end_time, lid, electionID, description) VALUES ('$vid', '$title', '$position', '$level', '$start_date', '$end_date', '$start_time', '$end_time', '$lid', '$electionID', '$description');";
+		 $sql = "INSERT INTO election (vid, title, position, level, view, start_date, end_date, start_time, end_time, lid, electionID, description) VALUES ('$vid', '$title', '$position', '$level', '$view', '$start_date', '$end_date', '$start_time', '$end_time', '$lid', '$electionID', '$description');";
 
 		 $result = mysqli_query($conn, $sql);
 		 if ($result) {
@@ -46,6 +47,12 @@
 			  <option value="custom">Custom</option>
 			  <option value="national" disabled>National</option>
 			  <option value="international" disabled>International</option>
+		 </select><br><br>
+
+		 <label for="view">View: </label><br>
+		 <select id="view" name="view">
+			  <option value="private" selected>Private</option>
+			  <option value="public">Public</option>
 		 </select><br><br>
 
 		 <label for="start_date">Start Date: </label><br>

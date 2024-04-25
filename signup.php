@@ -90,11 +90,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="password">Confirm Password</label><br>
         <input type="password" name="password_2" id="confirm_password" placeholder="Confirm Password" required><span></span><br><br>
         <!-- files -->
-        <span>Citizenship Photo(Front)</span> <input type="file" name="front_image" required><br><br>
-        <span>Citizenship Photo(Back)</span> <input type="file" name="back_image" required><br><br>
+        <span>Citizenship Photo(Front)</span> <input type="file" name="front_image" ><br><br>
+        <span>Citizenship Photo(Back)</span> <input type="file" name="back_image" ><br><br>
         <label for="citizenship_number">Citizenship-number</label><br>
         <input type="text" name="citizenship_number" id="citizenship_number" placeholder="Your Citizenship-Number" required><span></span><br><br>
-        <span>Profile Picture</span> <input type="file" name="photo" required><br><br>
+        <span>Profile Picture</span> <input type="file" name="photo"><br><br>
         <button type="submit">Signup</button>
         <div style="margin-top: 20px;"><i>Already have an account?</i> <a href="signin.php">Sign In</a></div>
     </form>

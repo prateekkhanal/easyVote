@@ -13,7 +13,25 @@
 <div id="election-card">
 ';
 	
-	$sql = "SELECT * FROM election join locations on locations.lid = election.lid WHERE vid = " . $_SESSION['vid'];
+	$sql = '
+			SELECT *,
+				 (
+					SELECT 
+						 CASE
+							  WHEN (CURDATE() < start_date AND start_date < end_date) THEN "not-started"
+							  WHEN ((CURDATE() = start_date AND CURTIME() < start_time) AND (start_time <= end_time)) THEN "not-started"
+							  WHEN ((CURDATE() BETWEEN start_date AND end_date) AND (start_date < end_date)) then "started"
+							  WHEN ((CURDATE() > end_date AND start_date < end_date) and (start_date <= end_date)) THEN "ended"
+							  WHEN ((CURDATE() = end_date AND CURTIME() < end_time) and (start_date <= end_date)) THEN "started"
+							  WHEN ((CURDATE() = end_date AND CURTIME() > end_time) AND (start_date <= end_date)) THEN "ended"
+							  ELSE "invalid date/time range"
+						 END
+				 ) 	AS	 status
+			 FROM 		 election 
+			join			 locations 
+			on 			 locations.lid = election.lid 
+			WHERE			 vid = ' . $_SESSION['vid'];
+	/* echo $sql; */
 	$rows = mysqli_query($conn, $sql);
 	/* print_r($rows); */
 	if ($row = $rows->num_rows > 0) {
@@ -25,9 +43,10 @@
 			echo "</pre>";
 ?>
 	<div style="float: left; background-color: #4285F4; text-align:center; width: max-content; margin: 20px; padding: 10px; border-radius: 7px;">
-			<h2 style="text-align: center; margin-bottom: 9px;"><?=$row['title']?></h2>
+			<h2 style="text-align: center; font-style: italic; color: white; font-size: bigger; text-transform: uppercase; margin-bottom: 9px;"><?=$row['status']?></h2>
+			<h2 style="text-align: center; margin-bottom: 9px; font-size: x-large;"><?=$row['title']?></h2>
 			<big><div style="text-align: center; font-family:Arial, Helvetica, sans-serif;  font-weight: bold; color: lightgreen;" title="Election ID"><?=$row['electionID']?>
-			<div style="text-align: center; font-style:italic;color: lightblue; display: inline-block;" title="Election ID">(<?=$row['level']?>)</div>
+			<div style="text-align: center; font-style:italic;color: lightblue; display: inline-block;" title="Election ID">(<?=$row['level']?>/<?=$row['view']?>)</div>
 			</div></big>
 			
 			<p style="text-align: center; margin: auto; margin-top: 10px; border: 2px; border-radius: 7px; width: 600px;"><?=$row['description']?></p>
@@ -52,7 +71,7 @@
 					<td><?php echo $row['end_date'] ?></td>
 					<td><?php echo $row['start_time'] ?></td>
 					<td><?php echo $row['end_time'] ?></td>
-					<td>[<a href="manage-election.php?eid=<?=$row['electionID']?>">Manage</a>]<br>[<a href="delete-election.php?eid=<?=$row['electionID']?>&title=<?=$row['title']?>" onclick="if (!confirm('Are you sure you want to DELETE this election?')) {event.preventDefault();}">Delete</a>]</td>
+					<td>[<a href="manage-election.php?eid=<?=urlencode($row['electionID'])?>&et=<?=$row['title']?>">Manage</a>]<br>[<a href="delete-election.php?eid=<?=$row['electionID']?>&title=<?=$row['title']?>" onclick="if (!confirm('Are you sure you want to DELETE this election?')) {event.preventDefault();}">Delete</a>]</td>
 				</tr>
 				</tbody>
 			</table>
