@@ -9,7 +9,7 @@
 		<br>
 		<div>
 			  <label for="search">Search Elections:</label>
-			  <input type="text" id="search" name="search" onkeyup="searchElections()"> </div> <br>
+			  <input type="text" id="search" name="search" onkeyup="searchElections()"> </div> <br><hr>
 <div id="election-card">
 ';
 	
@@ -23,6 +23,7 @@
 							  WHEN ((CURDATE() BETWEEN start_date AND end_date) AND (start_date < end_date)) then "started"
 							  WHEN ((CURDATE() > end_date AND start_date < end_date) and (start_date <= end_date)) THEN "ended"
 							  WHEN ((CURDATE() = end_date AND CURTIME() < end_time) and (start_date <= end_date)) THEN "started"
+							  WHEN ((start_date = end_date AND start_time < end_time) AND (CURTIME() > end_date)) THEN "ended"
 							  WHEN ((CURDATE() = end_date AND CURTIME() > end_time) AND (start_date <= end_date)) THEN "ended"
 							  ELSE "invalid date/time range"
 						 END
@@ -60,7 +61,6 @@
 					<th>End Date</th>
 					<th>Start Time</th>
 					<th>End Time</th>
-					<th>Actions</th>
 				</thead>
 
 				<tbody>
@@ -71,10 +71,13 @@
 					<td><?php echo $row['end_date'] ?></td>
 					<td><?php echo $row['start_time'] ?></td>
 					<td><?php echo $row['end_time'] ?></td>
-					<td>[<a href="manage-election.php?eid=<?=urlencode($row['electionID'])?>&et=<?=$row['title']?>">Manage</a>]<br>[<a href="delete-election.php?eid=<?=$row['electionID']?>&title=<?=$row['title']?>" onclick="if (!confirm('Are you sure you want to DELETE this election?')) {event.preventDefault();}">Delete</a>]</td>
 				</tr>
 				</tbody>
 			</table>
+		<div style="margin-top: 20px;">
+			<button onclick="window.location.href='manage-election.php?eid=<?=urlencode($row['electionID'])?>&et=<?=$row['title']?>'" style="margin-right: 10px; margin-top: 5px;">Manage</button>
+			<button onclick="if (confirm('Are you sure you want to DELETE this election?')) {window.location.href='delete-election.php?eid=<?=$row['electionID']?>&title=<?=$row['title']?>'} else {event.preventDefault();}">Delete</button>
+		</div>
 	</div>
 <?php
 		}

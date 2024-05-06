@@ -1,5 +1,7 @@
 <?php
  session_start();
+ include "../../regular_functions.php";
+ displayMessage();
 if (isset($_SESSION['msg'])) {
 	echo $_SESSION['msg'];
 	unset($_SESSION['msg']);

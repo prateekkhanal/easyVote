@@ -3,9 +3,10 @@
 	include "../../connect.php";
 
 	$eid = $_GET['eid'];
+	$vid = $_GET['vid'];
 	$title = $_GET['title'];
 
-	$sql = "DELETE FROM election WHERE electionID='$eid';";
+	$sql = "DELETE FROM election WHERE electionID='$eid' AND vid=".$_SESSION['vid'];
 	$result = mysqli_query($conn, $sql);
 
 	if ($result) {

@@ -46,10 +46,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['role'] = 'voter';
             // Redirect to the previous page or index.php if not set
             redirectBack('/easyVote/index.php');
+				exit;
         } else {
             // Invalid credentials
-            echo "Invalid email or password.";
+            $_SESSION['msg-error'] = "Invalid email or password.";
         }
+		  header("Location: ". $_SERVER['PHP_SELF']);
     }
     // Close database connection
     $conn->close();
@@ -60,26 +62,90 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Login</title>
+    <style>
+			body {
+				 background-color: #f4f4f4;
+				 font-family: Arial;
+			}
+			.msg {
+				font-size: 22px;
+}
+			.container {
+				 font-family: Arial, sans-serif;
+				 margin: 0;
+				 padding: 0;
+				 display: flex;
+				 justify-content: center;
+				 align-items: center;
+				 height: 100vh;
+				font-size: 18px;
+			}
+
+			h1 {
+				 text-align: center;
+				margin-bottom: 45px;
+			}
+
+			form {
+				 width: 400px; /* Set the desired width */
+				 margin: auto auto;
+				 padding: 20px;
+				 background-color: #fff;
+				 border-radius: 5px;
+				 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			}
+
+			input[type="text"],
+			input[type="password"] {
+				 width: 100%;
+				font-size: 18px;
+				 padding: 10px;
+				 margin-bottom: 10px;
+				 border-radius: 5px;
+				 border: 1px solid #ccc;
+				 box-sizing: border-box;
+			}
+
+			button {
+				 padding: 10px 20px;
+				 background-color: #007bff;
+				 color: #fff;
+				 border: none;
+				 border-radius: 5px;
+				font-size: 20px;
+				 cursor: pointer;
+			}
+
+			button:hover {
+				 background-color: #0056b3;
+			}
+
+			#emailError,
+			#passwordError {
+				 color: red;
+			}
+</style>
 </head>
 <body>
-    <h1>Sign in</h1>
 
-    <form id="loginForm" action="" method="post">
-        <label for="email">Email</label><br>
-        <input type="text" name="email" id="email" placeholder="Email" required><br>
-        <span id="emailError" style="color: red;"></span><br>
+<div class="container">
+	<form id="loginForm" action="" method="post">
+		 <h1>Sign in</h1>
+		 <input type="text" name="email" id="email" placeholder="Email" required>
+		 <span id="emailError"></span><br><br>
 
-        <label for="password">Password</label><br>
-        <input type="password" name="password" id="password" placeholder="Password" required><br>
-        <span id="passwordError" style="color: red;"></span><br>
+		 <input type="password" name="password" id="password" placeholder="Password" required>
+		 <span id="passwordError"></span><br><br>
 
-        <button type="submit" id="submitBtn">Sign in</button>
-    </form>
+		 <button type="submit" id="submitBtn">Sign in</button>
+		 <br>
+		 <br>
+		 <div style="margin-top: 10px;">
+			  <i>Not registered yet? </i><a href="signup.php">Sign Up</a>
+		 </div>
+	</form>
+</div>
 
-    <div style="margin-top: 10px;">
-        <i>Not registered yet? </i><a href="signup.php">Sign Up</a>
-    </div>
-
-    <script src="./js/login_validation.js"></script>
+<script src="./js/login_validation.js"></script>
 </body>
 </html>

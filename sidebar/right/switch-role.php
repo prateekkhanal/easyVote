@@ -58,16 +58,16 @@
 					$_SESSION['role'] = 'voter';
 				}
 		}
-	function checkIfAdmin($vid) {
-		include "../../connect.php";
-		$getAdmin = "SELECT * FROM admins WHERE vid = $vid;";
+	/* function checkIfAdmin($vid) { */
+	/* 	include "../../connect.php"; */
+	/* 	$getAdmin = "SELECT * FROM admins WHERE vid = $vid;"; */
 		
-		$rows = mysqli_query($conn, $getAdmin);
-		if ($row = $rows->num_rows > 0) {
-			return true;
-		}
-		return false;
-		}
+	/* 	$rows = mysqli_query($conn, $getAdmin); */
+	/* 	if ($rows->num_rows > 0) { */
+	/* 		return true; */
+	/* 	} */
+	/* 	return false; */
+	/* 	} */
 ?>
 
 

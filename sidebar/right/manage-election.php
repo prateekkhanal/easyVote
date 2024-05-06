@@ -2,6 +2,7 @@
 include "../../includes/regular_functions.php";
 include "../../connect.php";
 include "./election-timer.php";
+include "view-election.php";
 displayMessage();
 $eid = $_GET['eid'];
 $et = $_GET['et'];
@@ -9,9 +10,14 @@ $et = $_GET['et'];
 ?>
 <div>
 
-</div>
+<br>
+	<a href="update-election.php?eid=<?=$_GET['eid']?>&et=<?=urlencode($_GET['et'])?>">Edit Election Details</a>
+<br>
 <br>
 <hr>
+
+</div>
+<br>
 <a href="create-role.php?eid=<?=urlencode($_GET['eid'])?>&et=<?=urlencode($_GET['et'])?>">Create New Role</a>
 View Roles:-
 <br>
@@ -45,10 +51,8 @@ View Roles:-
 		</tbody>
 	</table>
 <hr>
-	Manage Election
-<br>
-<br>
-	<a href="update-election.php?eid=<?=$_GET['eid']?>&et=<?=urlencode($_GET['et'])?>">Edit This Election Details</a>
-<br>
 <br>
 	<a href="list-parties.php?eid=<?=urlencode($_GET['eid'])?>&et=<?=urlencode($_GET['et'])?>">Manage Parties</a>
+<br>
+<br>
+<hr>

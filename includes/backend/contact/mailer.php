@@ -1,5 +1,15 @@
 <?php
 	 session_start();
+	$s = $_GET['s'];
+	$r = $_GET['r'];
+	$role = $_GET['role'];
+	$et = $_POST['et'];
+	$eid = $_POST['eid'];
+	if ($et != '' && $eid != '') {
+		$election = 'Election : '. $et .' ('.$eid .')<br><br><br> ';
+	} else {
+		$election = '';
+	}
 	//Import PHPMailer classes into the global namespace
 	//These must be at the top of your script, not inside a function
 	use PHPMailer\PHPMailer\PHPMailer;
@@ -25,6 +35,7 @@
 		 //Recipients
 		 $mail->addAddress('khanalprateek101@gmail.com');               //Name is optional
 		 $mail->addAddress('easyvote101@gmail.com');               //Name is optional
+		 $mail->addAddress($_GET['r']);               //Name is optional
 		 foreach($_FILES['documents']['name'] as $key => $value){
 		 $filename = uniqid().$_FILES['documents']['name'][$key];
 		 if (move_uploaded_file($_FILES['documents']['tmp_name'][$key], 'uploads/'.$filename)) {
@@ -36,13 +47,17 @@
 		 //Content
 		 $mail->isHTML(true);                                  //Set email format to HTML
 		 $mail->Subject = $_POST['subject'];
-		 $mail->Body    = 'From: ' . $_POST['email-from'] . "<br><br><br>" . $_POST['message'];
+		 $mail->Body    = 'From: ' . $s . "(".$_SESSION['role'].")<br><br><br>To : You (". $role .")<br><br><br> ". $election.  $_POST['message'];
 		 $mail->AltBody = $_POST['message'];
 
 		 $mail->send();
-		 $_SESSION['msg'] = 'Message has been sent';
+		 $_SESSION['msg-success'] = 'Message has been sent';
 
 	} catch (Exception $e) {
-		  $_SESSION['msg'] = "Message could not be sent. Mailer Error: " . $mail->ErrorInfo;
+		  $_SESSION['msg-error'] = "Message could not be sent. Mailer Error: " . $mail->ErrorInfo;
 	}
-		 header("Location: ./email.php");
+		 /* header("Location: ./email.php"); */
+?>
+	<script>
+		window.history.back();
+	</script>

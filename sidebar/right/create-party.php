@@ -30,7 +30,7 @@
 		$result = mysqli_query($conn, $sql);
 
 		if ($result) {
-			$_SESSION['msg-success'] = "Party added successfully!";
+			$_SESSION['msg-success'] = "Party <big>$name</big> added successfully!";
 		} else {
 			$_SESSION['msg-error'] = "Failed to add the Party!";
 		}

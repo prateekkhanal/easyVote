@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS locations (
 );
 
 CREATE TABLE IF NOT EXISTS admins (
-    rid int auto_increment primary key,
+    aid int auto_increment primary key,
 	 vid int,
 	 FOREIGN KEY (vid) REFERENCES voters (vid) ON DELETE CASCADE
 );
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS voters (
     password varchar(100),
     lid int ,
     FOREIGN KEY (lid) REFERENCES locations (lid),
-    citizenship_number varchar(100) unique,
+    citizenship_number varchar(100) UNIQUE,
     front_image varchar(100),
     back_image varchar(100),
     photo varchar(100),
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS election (
 	 FOREIGN KEY (vid) REFERENCES voters (vid) ON DELETE CASCADE ON UPDATE CASCADE,
     title varchar(100),
 	 position varchar(100),
-	 `level` enum('custom', 'national', 'international', 'pending') DEFAULT 'custom',
+	 `level` enum('custom', 'national', 'international', 'pending', 'rejected') DEFAULT 'custom',
 	 `view` enum('private', 'public') DEFAULT 'private',
     start_date date,
     end_date date,
@@ -223,7 +223,8 @@ VALUES
 ('Taplejung'),
 ('Terhathum'),
 ('Udayapur'),
-('Western Rukum');
+('Western Rukum'),
+('Other');
 
 
 INSERT INTO faq (question, answer, category) VALUES ('What is online voting?', 'Online voting is a method of casting ballots using electronic devices connected to the internet. It allows eligible voters to securely submit their votes from any location with internet access, eliminating the need for physical polling stations.', 'General'),
