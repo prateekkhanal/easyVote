@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <?php
+
 	include "../../../connect.php";
 	include "../../regular_functions.php";
+
+	if (role() != 'admin') {
+		die ("You must switch role to admin to manage elections!");
+	}
 	displayMessage();
 	echo '
 	<h2 style="text-align: center; color: red;">ADMINISTRATOR - Elections Panel</h2>
@@ -11,12 +16,12 @@
 <br> <hr><br>
 		<label for="level">Level : </label>
 		<select id="level" name="level">
-			<option value="%">All</option>
-			<option value="custom">Custom</option>
-			<option value="national">National</option>
-			<option value="international">International</option>
-			<option value="pending" selected>Pending</option>
-			<option value="rejected">rejected</option>
+			<option value="%" '. (($_GET['role'] == '%') ? 'selected' : '') .'>All</option>
+			<option value="custom" '. (($_GET['role'] == 'custom') ? 'selected' : '') .'>Custom</option>
+			<option value="national" '.  (($_GET['role'] == 'national') ? 'selected' : '') .'>National</option>
+			<option value="international" '.  (($_GET['role'] == 'international') ? 'selected' : '') .'>International</option>
+			<option value="pending" '.  (!isset($_GET['role']) ? 'selected' : ($_GET['role'] == 'pending' ? 'selected' : '')) .'>Pending</option>
+			<option value="rejected" '.  (($_GET['role'] == 'rejected') ? 'selected' : '') .'>rejected</option>
 		</select>
 <br>
 <br>
@@ -30,12 +35,12 @@
 	$adminVID = $adminVoterID->fetch_assoc()['voterID'];
 
 	$sql = "
-			SELECT title, position, level, view, start_date, end_date, start_time, end_time, electionID, description, authentication, location_name, voterID, name FROM election JOIN locations on locations.lid = election.lid join voters on voters.vid = election.vid WHERE level='pending' ORDER BY eid DESC;
+			SELECT title, position, level, view, start_date, end_date, start_time, end_time, electionID, description, authentication, location_name, voterID, name FROM election JOIN locations on locations.lid = election.lid join voters on voters.vid = election.vid WHERE level LIKE '" . (isset($_GET['role']) ? $_GET['role'] : 'pending') ."' ORDER BY eid DESC;
 ";
 	/* echo $sql; */
 			echo "<pre>";
 	$result = mysqli_query($conn, $sql);
-	/* print_r($result); */
+	print_r($result);
 			echo "</pre>";
 	if ($result->num_rows > 0) {
 		while ($row = $result->fetch_assoc()) {
@@ -114,13 +119,14 @@
 	 
 	  function changeLevel(select) {
 			var level = select.value;
+			var curlevel = document.getElementById('level').value;
 			var eid = select.nextElementSibling.value;
 			/* console.log(searchLevel); */
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function() {
 				 if (this.readyState == 4 && this.status == 200) {
-					/* window.location.href="view-elections.php"; */
-					 window.location.reload();
+					window.location.href="view-elections.php?role="+curlevel;
+					 /* window.location.reload(); */
 					 console.log(this.responseText);
 				 }
 			};
@@ -130,6 +136,7 @@
 	  }
 
 	  function deleteElection(button) {
+		   let level = document.getElementById('level').value;
 			var eid = button.dataset.value1;
 			var title = button.dataset.value2;
 			console.log(eid);
@@ -138,8 +145,8 @@
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function() {
 				 if (this.readyState == 4 && this.status == 200) {
-					/* window.location.href="view-elections.php"; */
-					 window.location.reload();
+					window.location.href="view-elections.php?role="+level;
+					 /* window.location.reload(); */
 					 console.log(this.responseText);
 				 }
 			};

@@ -21,5 +21,5 @@ if (role() == 'admin') {
 		}
 	}
 }else {
-	echo "Not authorized!";
+	 "Not authorized!";
 }

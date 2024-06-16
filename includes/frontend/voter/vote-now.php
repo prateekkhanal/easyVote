@@ -1,7 +1,50 @@
 <?php
-	include "can-i-vote.php";
+	session_start();
 	include "../../../connect.php";
-	
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		$vid = $_SESSION['vid'];
+		$cid = urldecode($_POST['cid']);
+	if (empty($vid) || empty($cid)) {
+		echo "Vote Failed! Invalid VoterID or CandidateID!";
+	} else {
+		$voteQuery = "INSERT INTO votes (vid, cid) VALUES((SELECT voterID from voters WHERE vid = $vid), '$cid')";
+		/* echo $voteQuery; */
+		try {
+		$vote = mysqli_query($conn, $voteQuery);
+			$_SESSION['msg-success'] = "Voted Successfully!";
+		} catch (Exception $e) {
+			$_SESSION['msg-error'] = "Voting Failed! You have already Voted for this candidate!";
+		}
+	}
+	}
+	include "can-i-vote.php";
+	displayMessage();
+	echo "<pre>";
+	/* print_r($_SERVER); */
+	echo "</pre>";
+	displayMessage();
+	if ($canVote) {
+		$_SESSION['msg-success'] = 'You meet all the necessary requirements to vote for a candidate!';
+
+	if ($time == 'started') {
+		$_SESSION['msg'] = 'Election has started! Vote Before time runs out!';
+	}else if ($time == 'ended' && !$voteAlready) {
+		$_SESSION['msg-error'] = 'Election has ended! You can no longer participate in this election!';
+	}else if ($time == 'not-started') {
+		$_SESSION['msg'] = 'Election hasn\'t started yet! You must wait to participate!';
+	}
+	} else if (!$voteAlready){
+		$_SESSION['msg-error'] = 'You aren\'t allowed to vote! Please visit the <i>Can I Vote?</i> page!';
+	}
+	if ($voteAlready) {
+		$_SESSION['msg'] = 'You have already voted for a candidate in this election!';
+	}
+	displayMessage();
+	if ($voteAlready && $time == 'ended') {
+		$_SESSION['msg-error'] = 'Election has ended!';
+	}
+	displayMessage();
+
 	$rid = $_GET['rid'];
 
 	$candidateQuery = "
@@ -96,7 +139,7 @@ button:hover, a:hover {
 </head>
 <body>
 
-<h2 style="text-align:center">User Profile candidate</h2>
+<h2 style="text-align:center">Candidates</h2>
 
 <?php
 	if ($candidate->num_rows > 0) {
@@ -106,6 +149,7 @@ button:hover, a:hover {
 		/* print_r($candidateInfo); */
 ?>
 	<div class="candidate">
+
 	<img src="../../../uploads/profile_picture/<?=$candidateInfo['photo']?>" alt="John">
 	<h1><?=$candidateInfo['name']?></h1>
 	<p class="ID"><?=$candidateInfo['candidateID']?></p>
@@ -113,7 +157,9 @@ button:hover, a:hover {
 	  <p><big>Party:</big> <i><?=$candidateInfo['party']?></i> (<span class="ID"><?=$candidateInfo['partyID']?></span>)</p>
 	  <p><big>Moto:</big> <?=$candidateInfo['description']?></p>
 	  </div>
-	  <p><button onclick="voteAuth('<?=$candidateInfo['candidateID']?>')">Vote</button></p>
+		<form action="" method="POST">
+		<p><button name="cid" value="<?=urlencode($candidateInfo['candidateID']);?>" onclick="voteAuth('<?=$candidateInfo['candidateID']?>')" <?php if ($voteAlready || $time != 'started') {echo 'disabled onmouseover="this.style.cursor= \'not-allowed\';" style="cursor: not-allowed; background-color: '; if (($candidateInfo['candidateID'] == $votedFor)) {echo 'black;"';} else {echo 'lightgray;"';}}?>>Vote<?php if ($candidateInfo['candidateID'] == $votedFor) {echo 'd';}?></button></p>
+		</form>
 	</div>
 <?php
 		}
@@ -124,19 +170,46 @@ button:hover, a:hover {
 
 
 </div>
-<button onclick="voteAuth('dF12#(8cBf/')" onmouseover="this.style.cursor= 'not-allowed'; this.style.backgroundColor = 'lightgray'" style="cursor: not-allowed; background-color: lightgray;">Vote</button>
+<!-- <button onclick="voteAuth('dF12#(8cBf/')" onmouseover="this.style.cursor= 'not-allowed'; this.style.backgroundColor = 'lightgray'" style="cursor: not-allowed; background-color: lightgray;" disabled>Vote</button> -->
 
 
 <script>
 function voteAuth(cid) {
-	console.log("functoin call", cid);
+	console.log("function call", cid);
 	var userInput = window.prompt('Enter ID of the candidate for confirmation : '+ cid);
 	if (userInput == cid) {
 		console.log("You have successfully Voted for "+cid+"!");
+		/* vote(<?=$vid?>, cid); */
 		/* window.location = '?rid='+<?=$rid?>+'&cid='+cid; */
 	} else {
 		alert("Invalid Candidate ID! Vote Failed!");
+		event.preventDefault();
 	}
+}
+
+function vote(vid, cid) {
+	console.log(vid, cid);
+	var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+			console.log(this.responseText);
+			// Create the new element you want to append
+			const newElement = document.createElement('div');
+			newElement.textContent = this.responseText;
+
+			// Get the target element where you want to append the new element
+			const targetElement = document.getElementsByTagName('body');
+
+			// Get the first child of the target element
+			const firstChild = targetElement.firstChild;
+
+			// Insert the new element before the first child
+			targetElement.insertBefore(newElement, firstChild);
+
+      }
+    };
+	xmlhttp.open("GET", "../../ajax/voter/vote.php?vid="+encodeURIComponent(vid)+"&cid="+encodeURIComponent(cid), true);
+    xmlhttp.send();
 }
 </script>
 </body>

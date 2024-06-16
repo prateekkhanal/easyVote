@@ -7,6 +7,7 @@
  $r = $_GET['r'];
  $sql = "SELECT name, email FROM voters WHERE voterID = '$s' UNION ALL SELECT name, email FROM voters WHERE  voterID = '$r'";
 
+ /* echo $sql; */
  $emails = mysqli_query($conn, $sql);
  if ($emails->num_rows == 2) {
  $sender = $emails->fetch_assoc();
