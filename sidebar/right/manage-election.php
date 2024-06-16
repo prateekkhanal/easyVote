@@ -11,14 +11,14 @@ $et = $_GET['et'];
 <div>
 
 <br>
-	<a href="update-election.php?eid=<?=$_GET['eid']?>&et=<?=urlencode($_GET['et'])?>">Edit Election Details</a>
+	<a href="update-election.php?eid=<?=urlencode($_GET['eid'])?>&et=<?=urlencode($_GET['et'])?>">Edit Election Details</a>
 <br>
 <br>
 <hr>
 
 </div>
 <br>
-<a href="create-role.php?eid=<?=urlencode($_GET['eid'])?>&et=<?=urlencode($_GET['et'])?>">Create New Role</a>
+<a href="create-role.php?eid=<?=urlencode($_GET['eid'])?>&et=<?=urlencode($_GET['et'])?>">Create New Role</a><br><br>
 View Roles:-
 <br>
 <br>
@@ -53,6 +53,10 @@ View Roles:-
 <hr>
 <br>
 	<a href="list-parties.php?eid=<?=urlencode($_GET['eid'])?>&et=<?=urlencode($_GET['et'])?>">Manage Parties</a>
+<br>
+<hr>
+<br>
+	<a href="../../includes/backend/manager/candidates.php?eid=<?=urlencode($_GET['eid'])?>&et=<?=urlencode($_GET['et'])?>">Manage Candidates</a>
 <br>
 <br>
 <hr>

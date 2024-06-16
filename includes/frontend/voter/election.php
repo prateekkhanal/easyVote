@@ -5,16 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Page with sidebar-page</title>
   <style>
-.sidebar-page { grid-area: menu; }
-.main-content { grid-area: main; }
+* {
+	font-family: Arial, Helvetica, sans-serif;
+	padding: 0px;
+	margin: 0px;
+}
+.sidebar-page {
+	grid-area: menu;
+	position: fixed;
+	top: 350px;
+	left: 250px;
+	z-index: 0.5;
+}
+.sidebar-page ul li, a {
+	list-style: none;
+	text-decoration: none;
+	font-style: italic;
+	font-size: 1.25em;
+	margin: 15px 0px;
+	color: black;
+	
+}
+.main-content { grid-area: main;
+	margin-right: 100px;
+	margin-left: 100px;
+	padding-left: 400px;
+	padding-right: 225px;
+ }
 
 .container {
   display: grid;
   grid-template-areas:
     'footer footer footer footer menu';
-  gap: 10px;
-  background-color: #2196F3;
-  padding: 10px;
+  /* background-color: #2196F3; */
+  background-color: lightgray;
 }
 
 .grid-container > div {
@@ -68,5 +92,41 @@
       </ul>
     </div>
   </div>
+	<div>
+<pre>
+ - Election Page
+   	
+   	- View-Status (if election has either
+   			i. started/is running
+   			ii. ended
+   			)
+   	
+   	Title/electionID
+   	Level
+   	View
+   	Time-Table
+   	Location
+   	Authentication
+	Description
+	
+	Can-I-Vote ?
+	Can-I-Run-As-A-Candidate?
+	
+	Roles:-
+	   Position, Place, Who-Can-Run, Description
+	Parties:-
+	   logo, party-name, party-id, description, looking-for-candidates(status) , status 
+
+
+
+
+   - Candidate Tasks	
+      who can't send requests?
+	-> who has already sent request in any role
+	-> when the party trying is closed
+	-> when the candidate is blocked
+	-> election is running or ended
+<pre>
+</div>
 </body>
 </html>

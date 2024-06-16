@@ -1,0 +1,34 @@
+<style>
+.pinning {
+ width:40px;
+ cursor: pointer;
+}
+</style>
+
+<script>
+	function pinning (task, vid, eid, elmt) {
+	if (task == 'unpin') {
+		if (!confirm("Are you sure you want to Unpin this election ? ")) {event.preventDefault();}
+	}
+			 var xmlhttp = new XMLHttpRequest();
+			 xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+				// after the ajax request is completed
+				elmt.src = `../../../uploads/${task}.png`;
+				if (task == 'pin') {
+					// elmt.onclick = "pinning('unpin', " + vid + ", '"+eid+"', this)"; 
+					elmt.onclick = function() {pinning('unpin', vid, eid, this)};
+					elmt.title = 'UNPIN';
+				} else if (task == 'unpin') {
+					// elmt.onclick = "pinning('pin', " + vid + ", '"+eid+"', this)";
+					elmt.onclick = function() {pinning('pin', vid, eid, this)};
+					elmt.title = 'PIN';
+				}
+					console.log(this.responseText);
+				}
+			 }
+				console.log(`../../ajax/voter/${task}.php?eid=`+encodeURIComponent(eid)+`&vid=`+encodeURIComponent(vid));
+				xmlhttp.open("GET", `../../ajax/voter/${task}.php?eid=`+encodeURIComponent(eid)+`&vid=`+encodeURIComponent(vid), true);
+			 xmlhttp.send();
+  }
+</script>

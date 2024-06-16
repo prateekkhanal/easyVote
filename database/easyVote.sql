@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS parties (
     pid int auto_increment primary key,
 	 partyID varchar(100) UNIQUE,
     name varchar(100),
-    eid varchar(100) unique,
+    rid varchar(100) unique,
     description TEXT(1000),
     logo varchar(100),
 	 status enum('open', 'closed'),
@@ -115,19 +115,21 @@ CREATE TABLE IF NOT EXISTS candidate(
 );
 CREATE TABLE IF NOT EXISTS votes (
     id int auto_increment primary key,
-    cid varchar(100),
-    FOREIGN KEY (cid) REFERENCES candidate (candidateID),
     vid varchar(100),
     FOREIGN KEY (vid) REFERENCES voters (voterID),
-    `time` timestamp
+    cid varchar(100),
+    FOREIGN KEY (cid) REFERENCES candidate (candidateID),
+	`time` timestamp,
+	UNIQUE(vid, cid)
 );
 
 CREATE TABLE IF NOT EXISTS pinned_elections (
     peid int auto_increment primary key,
     vid int ,
     FOREIGN KEY (vid) REFERENCES voters (vid),
-    eid int ,
-    FOREIGN KEY (eid) REFERENCES election (eid)
+    eid VARCHAR(100) ,
+    FOREIGN KEY (eid) REFERENCES election (electionID),
+	UNIQUE (vid, eid)
 );
 
 CREATE TABLE IF NOT EXISTS election_manager (

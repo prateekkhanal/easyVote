@@ -6,7 +6,7 @@ include "view-election.php";
 	$electionID = $_GET['eid'];
 	/* $sql = "SELECT pid, parties.name as partyName, parties.partyID, parties.description as partyDescription, parties.logo, election.title as electionTitle, election.electionID FROM parties join election on election.eid = parties.eid WHERE election.electionID ='$electionID';"; */
 	$sql = "
-	SELECT (SELECT count(*) from candidate where eid='D!DCasxCE' and pid=parties.partyID) AS candidates,parties.name as partyName, parties.partyID, parties.description as partyDescription, parties.logo, election.title as electionTitle, parties.status as partyStatus, parties.authentic as authentic, election.electionID FROM parties join election on election.electionID = parties.eid WHERE election.electionID ='$electionID';
+	SELECT (SELECT count(*) from candidate where eid='$electionID' and pid=parties.partyID and verified='accepted') AS candidates,parties.name as partyName, parties.partyID, parties.description as partyDescription, parties.logo, election.title as electionTitle, parties.status as partyStatus, parties.authentic as authentic, election.electionID FROM parties join election on election.electionID = parties.eid WHERE election.electionID ='$electionID';
 	";
 /* echo $sql; */
 	session_start();
@@ -45,7 +45,7 @@ include "view-election.php";
 			<?php $status = $row['authentic'];?>
 			<img src="../../uploads/<?=$status?>.png" alt="<?=$status?>" style="height:35px; display: inline; position: absolute; border-radius:50%; top: 20px; right: 20px; margin-bottom: 10px;">
 			<div style="margin-bottom: 20px;">
-			<a href="#" style="color: white; display: block; "><big>Candidates : <?=$row['candidates']?></big></a><br>
+			<a href="../../includes/backend/manager/candidates.php?eid=<?=urlencode($electionID)?>&et=<?=urlencode($_GET['et'])?>&pid=<?=urlencode($row['partyID'])?>" style="color: white; display: block; "><big>Candidates : <?=$row['candidates']?></big></a><br>
 			<button onclick="window.location.href='update-party.php?pid=<?=urlencode($row['partyID'])?>&eid=<?=urlencode($_GET['eid'])?>&et=<?=urlencode($_GET['et'])?>'" style="margin-right: 10px; margin-top: 5px;">Update</button>
 			<button onclick="if (confirm('Are you sure you want to DELETE this election?')) {window.location.href='delete-party.php?pid=<?=urlencode($row['partyID'])?>&eid=<?=urlencode($_GET['eid'])?>&pn=<?=urlencode($row['partyName'])?>&et=<?=urlencode($_GET['et'])?>'} else {event.preventDefault();}">Delete</button>
 			</div>

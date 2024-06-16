@@ -23,6 +23,8 @@ if (isset($_SESSION['vid'])) {
 	}
 
 } else {
+	$_SESSION['msg'] = "You need to login first!";
+	redirectHere($_SERVER['PHP_SELF']);
 	header("Location: ../../../signin.php");
 }
 } else {
