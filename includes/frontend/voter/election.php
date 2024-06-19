@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page with sidebar-page</title>
+  <title>Election</title>
   <style>
 * {
 	font-family: Arial, Helvetica, sans-serif;
@@ -31,6 +31,9 @@
 	margin-left: 100px;
 	padding-left: 400px;
 	padding-right: 225px;
+	padding-top: 125px;
+	padding-bottom: 125px;
+	font-size: 1.25em;
  }
 
 .container {
@@ -47,86 +50,253 @@
   padding: 20px 0;
   font-size: 30px;
 }
+
+table {
+	border-collapse: collapse;
+}
+table th, td{
+	border: 2px solid black;
+padding: 15px;
+}
 	
+table td img {
+	border-radius: 50%;
+	max-width: 100px;
+}
+
+h2.center {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
   </style>
 </head>
 <body>
   <div class="container">
     <div class="main-content">
-      <h2 id="election">Main Content</h2>
-      <p>This is the main content of the page.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisl nec sem finibus eleifend. Donec sit amet tempor metus. Duis non tortor convallis, vehicula quam id, efficitur nunc. Aliquam erat volutpat.</p>
-      <p>Curabitur vestibulum magna sit amet ligula fermentum, vel volutpat nunc suscipit. Integer eu ante sed urna facilisis feugiat vel eget magna. Nulla facilisi. Vivamus fermentum neque nec metus pellentesque eleifend.</p>
-      <p>Quisque accumsan augue eu elit bibendum scelerisque. Integer efficitur libero ac aliquam commodo. Proin non felis in dui eleifend ullamcorper eu et ipsum. Sed nec mi eu libero gravida cursus ut ac mauris.</p>
-      <p>Donec nec consequat mauris. Vestibulum vel dui vitae justo suscipit vestibulum non a risus. Nulla ut fringilla sem, a porta justo. Duis malesuada augue in justo dignissim, eget dignissim libero eleifend.</p>
-      <p>Quisque a nisi tortor. Sed condimentum massa in purus vulputate, ut cursus urna fermentum. Mauris aliquam, mi ut luctus posuere, urna quam feugiat justo, in bibendum nisi enim et eros.</p>
-      <h2 id="roles">Roles</h2>
-      <p>This is the main content of the page.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisl nec sem finibus eleifend. Donec sit amet tempor metus. Duis non tortor convallis, vehicula quam id, efficitur nunc. Aliquam erat volutpat.</p>
-      <p>Curabitur vestibulum magna sit amet ligula fermentum, vel volutpat nunc suscipit. Integer eu ante sed urna facilisis feugiat vel eget magna. Nulla facilisi. Vivamus fermentum neque nec metus pellentesque eleifend.</p>
-      <p>Quisque accumsan augue eu elit bibendum scelerisque. Integer efficitur libero ac aliquam commodo. Proin non felis in dui eleifend ullamcorper eu et ipsum. Sed nec mi eu libero gravida cursus ut ac mauris.</p>
-      <p>Donec nec consequat mauris. Vestibulum vel dui vitae justo suscipit vestibulum non a risus. Nulla ut fringilla sem, a porta justo. Duis malesuada augue in justo dignissim, eget dignissim libero eleifend.</p>
-      <p>Quisque a nisi tortor. Sed condimentum massa in purus vulputate, ut cursus urna fermentum. Mauris aliquam, mi ut luctus posuere, urna quam feugiat justo, in bibendum nisi enim et eros.</p>
-      <h2 id="candidates">Candidates</h2>
-      <p>This is the main content of the page.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisl nec sem finibus eleifend. Donec sit amet tempor metus. Duis non tortor convallis, vehicula quam id, efficitur nunc. Aliquam erat volutpat.</p>
-      <p>Curabitur vestibulum magna sit amet ligula fermentum, vel volutpat nunc suscipit. Integer eu ante sed urna facilisis feugiat vel eget magna. Nulla facilisi. Vivamus fermentum neque nec metus pellentesque eleifend.</p>
-      <p>Quisque accumsan augue eu elit bibendum scelerisque. Integer efficitur libero ac aliquam commodo. Proin non felis in dui eleifend ullamcorper eu et ipsum. Sed nec mi eu libero gravida cursus ut ac mauris.</p>
-      <p>Donec nec consequat mauris. Vestibulum vel dui vitae justo suscipit vestibulum non a risus. Nulla ut fringilla sem, a porta justo. Duis malesuada augue in justo dignissim, eget dignissim libero eleifend.</p>
-      <p>Quisque a nisi tortor. Sed condimentum massa in purus vulputate, ut cursus urna fermentum. Mauris aliquam, mi ut luctus posuere, urna quam feugiat justo, in bibendum nisi enim et eros.</p>
-      <h2 id="votes">Votes</h2>
-      <p>This is the main content of the page.</p>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nisl nec sem finibus eleifend. Donec sit amet tempor metus. Duis non tortor convallis, vehicula quam id, efficitur nunc. Aliquam erat volutpat.</p>
-      <p>Curabitur vestibulum magna sit amet ligula fermentum, vel volutpat nunc suscipit. Integer eu ante sed urna facilisis feugiat vel eget magna. Nulla facilisi. Vivamus fermentum neque nec metus pellentesque eleifend.</p>
-      <p>Quisque accumsan augue eu elit bibendum scelerisque. Integer efficitur libero ac aliquam commodo. Proin non felis in dui eleifend ullamcorper eu et ipsum. Sed nec mi eu libero gravida cursus ut ac mauris.</p>
-      <p>Donec nec consequat mauris. Vestibulum vel dui vitae justo suscipit vestibulum non a risus. Nulla ut fringilla sem, a porta justo. Duis malesuada augue in justo dignissim, eget dignissim libero eleifend.</p>
-      <p>Quisque a nisi tortor. Sed condimentum massa in purus vulputate, ut cursus urna fermentum. Mauris aliquam, mi ut luctus posuere, urna quam feugiat justo, in bibendum nisi enim et eros.</p>
-    </div>
+<?php
+
+	session_start();
+	
+	if (isset($_GET['eid'])) {
+		$eid = $_GET['eid'];
+
+		include "../../../connect.php";
+		include "../../regular_functions.php";
+
+	$getElectionDetails = "
+   	select e.title, e.vid, e.electionID, (SELECT voterID from voters where vid = (select vid from election where electionID = '$eid')) as vID, (SELECT voterID from voters where vid = (SELECT vid from election where electionID='$eid')) AS mID,
+(SELECT			
+									CASE
+								  WHEN (CURDATE() < start_date AND start_date < end_date) THEN 'not-started'
+								  WHEN ((CURDATE() = start_date AND CURTIME() < start_time) AND (start_time <= end_time)) THEN 'not-started'
+								  WHEN ((CURDATE() BETWEEN start_date AND end_date) AND (start_date < end_date)) then 'started'
+								  WHEN ((CURDATE() > end_date AND start_date < end_date) and (start_date <= end_date)) THEN 'ended'
+								  WHEN ((CURDATE() = end_date AND CURTIME() < end_time) and (start_date <= end_date)) THEN 'started'
+								  WHEN ((start_date = end_date AND start_time < end_time) AND (CURTIME() > end_date)) THEN 'ended'
+										 WHEN ((start_date = end_date AND start_time < end_time) AND (CURTIME() < end_date)) THEN 'not-started'
+								  WHEN ((CURDATE() = end_date AND CURTIME() > end_time) AND (start_date <= end_date)) THEN 'ended'
+								  ELSE 'N/A'
+							 END AS status from election WHERE election.electionID = '$eid'
+				) as electionStatus
+,e.level, e.view, e.start_date, e.end_date, e.start_time, e.end_time, l.location_name, e.description as electionDescription from election as e join locations as l on l.lid = e.lid
+where electionID = '$eid';
+";
+
+		$electionDetails = mysqli_query($conn, $getElectionDetails);
+
+
+		/* echo "<pre>"; */
+		/* print_r($electionDetails); */
+		$electionDetail = $electionDetails->fetch_assoc();
+		/* print_r($electionDetail); */
+		/* echo "</pre>"; */
+		if ($electionDetails->num_rows > 0) {
+			/* echo "Election exists!"; */
+
+?>
+	<h2 class="center"><?=$electionDetail['title']?>&ensp;&ensp;<?php include "./pinning-elections.html"; include "./pinning-elections.php";?></h2> 
+		<h2 class="center">(<?=$electionDetail['electionID']?>)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</h2><br>
+      <h2 id="election">Election Details</h2><br>
+		<p><span class="title">Level : </span><?=$electionDetail['level']?></p>
+		<p><span class="title">View : </span><?=$electionDetail['view']?></p>
+		<p><span class="title">Location : </span><?=$electionDetail['location_name']?></p><br>
+		<p><span class="title">Schedule : </span>
+<table>
+	<thead>
+	  <tr>
+		 <th>Start-Date</th>
+		 <th>End-Date</th>
+		 <th>Start-Time</th>
+		 <th>End-Time</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	  <td><?=$electionDetail['start_date']?></td>
+	  <td><?=$electionDetail['end_date']?></td>
+	  <td><?=$electionDetail['start_time']?></td>
+	  <td><?=$electionDetail['end_time']?></td>
+	  </tr>
+	</tbody>
+</table>
+
+</p><br>
+		<p><span class="title">Summary : </span><?=$electionDetail['electionStatus']?></p><br>
+		<div class="description">
+			<p><span class="title">Description : </span><br><br><?=$electionDetail['electionDescription']?></p>
+		</div>
+<br><hr><br>
+
+	<h2 id="roles">Roles</h2><br>
+<?php
+$getRoles = "
+			select r.rid, r.position, r.place, r.make_request, r.description from roles as r WHERE r.eid = '$eid';
+			";
+
+		$rolesDescriptions = $partiesDescriptions = array();
+			$roleCount = $partyCount = 1;
+		$roles = mysqli_query($conn, $getRoles);
+
+		/* echo "<pre>"; */
+		/* print_r($roles); */
+		if ($roles->num_rows > 0) {
+?>
+		<table>
+			<thead>
+			  <tr>
+				 <th>Count</th>
+				 <th>Position</th>
+				 <th>Place</th>
+				 <th>Check</th>
+		<?php if ($_SESSION['role'] == 'candidate') { ?>
+				<th>Run-Now</th>
+		<?php } else {?>
+				<th>Vote-Now</th>
+		<?php } ?>
+
+			  </tr>
+			</thead>
+			<tbody>
+<?php
+		while ($role = $roles->fetch_assoc()) {
+		/* print_r($role); */
+			$rolesDescriptions[] = $role['description'];
+?>
+	  <tr>
+	  <td><?=$roleCount++?></td>
+	  <td><?=$role['position']?></td>
+	  <td><?=$role['place']?></td>
+
+	<?php if ($_SESSION['role'] == 'candidate') { ?>
+		<th><a class="button" href="../candidate/can-i-run-as-a-candidate.php?rid=<?=$role['rid']?>&check=true">Can-I-Run-As-A-Candidate?</a></th>
+		<th><a class="button" href="../candidate/run-now.php?rid=<?=$role['rid']?>">Run-Now</a></th>
+	<?php } else {?>
+		<th><a class="button" href="./can-i-vote.php?rid=<?=$role['rid']?>&check=true">Can-I-Vote?</a></th>
+		<th><a class="button" href="./vote-now.php?rid=<?=$role['rid']?>">Vote-Now</a></th>
+<?php } ?>
+	  </tr>
+
+<?php
+		}
+	$roleCount = 1;
+?>
+	</tbody>
+</table><br>
+<div class="description">
+	<p><span class="title">Description : </span><br><br>
+<?php foreach($rolesDescriptions as $roleDescription) {?>
+	<?=$roleCount++?>. <?=$roleDescription?> <br><br>
+
+<?php
+	}
+?>
+</p>
+</div>
+<?php
+		} else {
+			echo "<p>Manager has not created any roles yet!</p>";
+		}
+?>
+<br><hr><br>
+
+	<h2 id="parties">Parties</h2><br>
+<?php
+	$getParties = "
+			select p.logo, p.name as partyName, p.status, p.authentic, p.description as partyDescription from parties as p where p.eid = '$eid' and p.authentic <> 'rejected';
+			";
+		$parties = mysqli_query($conn, $getParties);
+
+		/* echo "<pre>"; */
+		/* print_r($parties); */
+		if ($parties->num_rows > 0) {
+?>
+		<table>
+			<thead>
+			  <tr>
+				 <th>Count</th>
+				 <th>Logo</th>
+				 <th>Name</th>
+				 <th>Status</th>
+				 <th>Authentic</th>
+			  </tr>
+			</thead>
+			<tbody>
+<?php
+		while ($party = $parties->fetch_assoc()) {
+		/* print_r($party); */
+			$partiesDescriptions[] = $party['partyDescription'];
+			/* echo '/easyVote/uploads/parties/'.$party['logo']?>; */
+?>
+	  <tr>
+	  <td><?=$partyCount++?></td>
+	  <td><img src="/easyVote/uploads/<?php echo (empty($party['logo'])) ? 'profile_picture/no-image-party.jpg' : 'party/'.$party['logo'];?>"></td>
+	  <td><?=$party['partyName']?></td>
+	  <td><?=$party['status']?></td>
+	  <td><?=$party['authentic']?></td>
+	  </tr>
+
+<?php
+		}
+	$partyCount = 1;
+?>
+	</tbody>
+</table><br><br>
+<div class="description">
+	<p><span class="title">Description : </span><br><br>
+<?php foreach($partiesDescriptions as $partyDescription) {?>
+	<?=$partyCount++?>. <?=$partyDescription?><br><br>
+</p></div>
+<?php
+	}
+		} else {
+			echo "<p>Manager has not created any parties yet!</p>";
+		}
+?>
+<br>
     <div class="sidebar-page">
       <ul>
 			<h2>Navigation</h2>
-        <li><a href="#election">Election</a></li>
+        <li><a href="#election">Details</a></li>
         <li><a href="#roles">Roles</a></li>
-        <li><a href="#candidates">Candidates</a></li>
-        <li><a href="#votes">Votes</a></li>
+        <li><a href="#parties">Parties</a></li>
+		  <li><a href="../../backend/contact/email.php?s=<?=urlencode($electionDetail['vID'])?>&r=<?=urlencode($electionDetail['mID'])?>&role=<?=$_SESSION['role']?>&et=<?=urlencode($electionDetail['title'])?>&eid=<?=urlencode($electionDetail['electionID'])?>">Contact Manager</a></li>
+		  <li><a href="./vote-count.php?eid=<?=urlencode($electionDetail['electionID'])?>">Votes</a></li>
       </ul>
     </div>
   </div>
 	<div>
-<pre>
- - Election Page
-   	
-   	- View-Status (if election has either
-   			i. started/is running
-   			ii. ended
-   			)
-   	
-   	Title/electionID
-   	Level
-   	View
-   	Time-Table
-   	Location
-   	Authentication
-	Description
-	
-	Can-I-Vote ?
-	Can-I-Run-As-A-Candidate?
-	
-	Roles:-
-	   Position, Place, Who-Can-Run, Description
-	Parties:-
-	   logo, party-name, party-id, description, looking-for-candidates(status) , status 
+<?php
 
-
-
-
-   - Candidate Tasks	
-      who can't send requests?
-	-> who has already sent request in any role
-	-> when the party trying is closed
-	-> when the candidate is blocked
-	-> election is running or ended
-<pre>
+		} else {
+			echo "Election doesn't exist!";
+			die();
+			exit();
+		}
+	} else {
+		echo "<h2><i>No election selected!</i></h2>";
+	}
+?>
 </div>
 </body>
 </html>

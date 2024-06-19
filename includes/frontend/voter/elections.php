@@ -132,7 +132,6 @@ strong+big i {
 			<br>
         <strong>Location</strong>: <big><i>Kathmandu</i></big>
 			<br>
-      <strong>Authentication</strong>: <big><i>Verified Account</i></big> 
     </div>
     <div class="candidate-details" onclick="getRoles('D!DCasxCE', this)">
       <strong>Roles: </strong> 3 (<a href="javascript: void(0)"><i>View Details</i></a>)

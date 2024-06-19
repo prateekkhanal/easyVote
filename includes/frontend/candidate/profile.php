@@ -98,7 +98,7 @@ echo "</pre>";
         <div class="profile-info">
         <?php if (!empty($row['photo'])): ?>
             <div class="profile-picture">
-				 <img src="../../../uploads/profile_picture/<?=$row['photo']?>" alt="Profile Picture">
+				 <img src="/easyVote/uploads/profile_picture/<?=$row['photo']?>" alt="Profile Picture">
 			  </div>
         <?php endif; ?>
             <p><label>Name: </label><?= $row['name'] ?></p><br>

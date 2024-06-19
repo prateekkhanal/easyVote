@@ -56,7 +56,6 @@ $pinnedElectionsResult = mysqli_query($conn, $getPinnedElections);
 	h1 {
 		text-align: center;
 		font-size: 2em;
-		margin: 30px;
 }
 </style>
 
@@ -77,7 +76,7 @@ $pinnedElectionsResult = mysqli_query($conn, $getPinnedElections);
 	?>
 		<tr>
 			<td><?php echo $count++; ?></td>
-			<td><?php echo $row['title'] . " (<i>" .$row['electionID'] . "</i>) "; $pinned= true; $eid = $row['eid'];?></td>
+			<td><a href="http://localhost/easyVote/includes/frontend/voter/election.php?eid=<?=urlencode($row['electionID'])?>"><?php echo $row['title'] . " (<i>" .$row['electionID'] . "</i>) "; $pinned= true; $eid = $row['eid'];?></p></td>
 			<td><?php echo $row['status'] ?></td>
 			<td><?php include "./pinning-elections.php"?></td>
 		</tr>

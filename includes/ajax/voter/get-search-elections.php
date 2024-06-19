@@ -6,7 +6,7 @@ $q = $_GET['q'];
 $view = $_GET['view'];
 $lid = $_GET['lid'];
 
-$electionsQuery = 'SELECT title, electionID, level, locations.location_name, authentication, count(roles.eid) as roles, election.description,
+$electionsQuery = 'SELECT title, electionID, level, locations.location_name, (select make_request from roles where eid = election.electionID limit 1) as authentication , count(roles.eid) as roles, election.description,
 				 CASE
 					  WHEN (CURDATE() < start_date AND start_date < end_date) THEN "not-started"
 					  WHEN ((CURDATE() = start_date AND CURTIME() < start_time) AND (start_time <= end_time)) THEN "not-started"
@@ -19,7 +19,7 @@ $electionsQuery = 'SELECT title, electionID, level, locations.location_name, aut
 					  ELSE "N/A"
 				 END AS status
 				 FROM election JOIN locations ON locations.lid = election.lid LEFT JOIN roles ON roles.eid = election.electionID
-				 WHERE election.view = ';
+				 WHERE election.level <> "rejected" and election.view = ';
 /* public' AND election.lid like '$lid' AND election.title LIKE '%$q%' GROUP by election.electionID ORDER BY election.eid desc;'; */
 if ($view == 'public') {
 	$electionsQuery .= '\'public\' AND election.lid LIKE \''.$lid.'\' AND election.title LIKE \'%'.$q.'%\'';
@@ -45,7 +45,6 @@ if ($electionsResult->num_rows > 0) {
 							<br>
 						  <strong>Location</strong>: <big><i>'.$election['location_name'].'</i></big>
 							<br>
-						<strong>Authentication</strong>: <big><i>'.$election['authentication'].'</i></big> 
 					 </div>
 					 <div class="candidate-details" onclick="getRoles(\''.$election['electionID'].'\', this)">
 						<strong>Roles: </strong> '.$election['roles'].' (<a href="javascript: void(0)"><i>View Details</i></a>)
@@ -53,7 +52,7 @@ if ($electionsResult->num_rows > 0) {
 					 <div class="additional-info">
 						<p class="description">'.$election['description'].'</p>
 					 </div>
-					 <button id="spectate" onclick="window.location = \'../../frontend/voter/election.php?eid='.$election['electionID'].'\'">Spectate</button>
+					 <button id="spectate" onclick="window.location = \'../../frontend/voter/election.php?eid='.urlencode($election['electionID']).'\'">Spectate</button>
 					<a href="javascript: void(0)" class="status '.$election['status'] .'">'.$election['status'].'</a>
 				  </div>';
 	}

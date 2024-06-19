@@ -10,8 +10,10 @@ if (isset($_SESSION['vid'])) {
 	$vid = $_SESSION['vid'];
 	if (!empty($rid)){
 		$checkIfAllowed = "
-			select 
-			(	SELECT			
+			   select 
+   	    (select count(*) from candidate where vid = (select voterID from voters where vid = 1) and eid = 'ADxdlkjA@#1') as otherRequests,
+   	    (select count(*) from parties where eid = 'ADxdlkjA@#1' and parties.status = 'open') as partyStatus,
+			  (SELECT			
 									CASE
 								  WHEN (CURDATE() < start_date AND start_date < end_date) THEN 'not-started'
 								  WHEN ((CURDATE() = start_date AND CURTIME() < start_time) AND (start_time <= end_time)) THEN 'not-started'
@@ -22,39 +24,9 @@ if (isset($_SESSION['vid'])) {
 										 WHEN ((start_date = end_date AND start_time < end_time) AND (CURTIME() < end_date)) THEN 'not-started'
 								  WHEN ((CURDATE() = end_date AND CURTIME() > end_time) AND (start_date <= end_date)) THEN 'ended'
 								  ELSE 'N/A'
-							 END AS status from election WHERE election.electionID = (SELECT eid FROM roles WHERE rid = $rid)
-			) as time
-			,
-				case when (SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) = 'anyone' 
-					then 'success' else 'not-needed' end as anyone,
-				 case when 
-					(SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) = 'verified' and (SELECT authentic FROM voters where voterID = (SELECT voterID from voters where vid=$vid)) = 'yes'
-				  then 'success' 
-					when (SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) <> 'verified' then 'not-needed'
-					else 'failed' end as verified,
-				  case 
-			when ((SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) = 'location') and ((SELECT election.lid from roles join election on election.electionID = roles.eid join voters on voters.lid = election.lid WHERE roles.rid = $rid and voters.voterID = (SELECT voterID from voters where vid = $vid)) is not null)
-			then 'success'
-				when ((SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) <> 'location')
-				 then 'not-needed'
-			else 'failed' end as location,
-					case when 
-				(SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) = 'chosen' and (SELECT count(*) FROM registered_voters as rv WHERE rv.eid = (SELECT eid from roles where rid = $rid) and rv.vid = (SELECT voterID from voters where vid = $vid)) 
-					 then 'success'
-					  when 
-				(SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) <> 'chosen'
-				then 'not-needed'
-					  else 'failed'  end as chosen,	
-			CASE when (
-								 select votes.cid from votes join candidate on candidate.candidateID = votes.cid WHERE candidate.rid = $rid and votes.vid = (SELECT voterID from voters where vid = $vid)
-							) is not null then 'yes' else 'no' 
-							end as votedAlready, 
-							(
-								 select votes.cid from votes join candidate on candidate.candidateID = votes.cid WHERE candidate.rid = $rid and votes.vid = (SELECT voterID from voters where vid = $vid)
-							) as votedFor;
-
-			";
-					/* echo $checkIfAllowed; */
+							 END AS status from election WHERE election.electionID = 'ADxdlkjA@#1'
+				) as electionStatus";
+					echo $checkIfAllowed;
 					$result = mysqli_query($conn, $checkIfAllowed);
 					/* echo "hehehe"; */
 					$answer = $result->fetch_assoc();

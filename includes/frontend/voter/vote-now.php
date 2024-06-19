@@ -150,7 +150,7 @@ button:hover, a:hover {
 ?>
 	<div class="candidate">
 
-	<img src="../../../uploads/profile_picture/<?=$candidateInfo['photo']?>" alt="John">
+	<img src="/easyVote/uploads/profile_picture/<?=$candidateInfo['photo']?>" alt="John">
 	<h1><?=$candidateInfo['name']?></h1>
 	<p class="ID"><?=$candidateInfo['candidateID']?></p>
 	  <div class="details">
@@ -158,7 +158,7 @@ button:hover, a:hover {
 	  <p><big>Moto:</big> <?=$candidateInfo['description']?></p>
 	  </div>
 		<form action="" method="POST">
-		<p><button name="cid" value="<?=urlencode($candidateInfo['candidateID']);?>" onclick="voteAuth('<?=$candidateInfo['candidateID']?>')" <?php if ($voteAlready || $time != 'started') {echo 'disabled onmouseover="this.style.cursor= \'not-allowed\';" style="cursor: not-allowed; background-color: '; if (($candidateInfo['candidateID'] == $votedFor)) {echo 'black;"';} else {echo 'lightgray;"';}}?>>Vote<?php if ($candidateInfo['candidateID'] == $votedFor) {echo 'd';}?></button></p>
+		<p><button name="cid" value="<?=urlencode($candidateInfo['candidateID']);?>" onclick="voteAuth('<?=$candidateInfo['candidateID']?>')" <?php if ($voteAlready || $time != 'started' || !empty($failures)) {echo 'disabled onmouseover="this.style.cursor= \'not-allowed\';" style="cursor: not-allowed; background-color: '; if (($candidateInfo['candidateID'] == $votedFor)) {echo 'black;"';} else {echo 'lightgray;"';}}?>>Vote<?php if ($candidateInfo['candidateID'] == $votedFor) {echo 'd';}?></button></p>
 		</form>
 	</div>
 <?php

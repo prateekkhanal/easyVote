@@ -24,24 +24,24 @@ select
 				 END AS status from election WHERE election.electionID = (SELECT eid FROM roles WHERE rid = $rid)
 ) as time
 ,
-	case when (SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) = 'anyone' 
+	case when (SELECT make_request from roles where rid = $rid) = 'anyone' 
 		then 'success' else 'not-needed' end as anyone,
 	 case when 
-	 	(SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) = 'verified' and (SELECT authentic FROM voters where voterID = (SELECT voterID from voters where vid=$vid)) = 'yes'
+	 	(SELECT make_request from roles where rid = $rid) = 'verified' and (SELECT authentic FROM voters where voterID = (SELECT voterID from voters where vid=$vid)) = 'yes'
 	  then 'success' 
-      when (SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) <> 'verified' then 'not-needed'
+      when (SELECT make_request from roles where rid = $rid) <> 'verified' then 'not-needed'
       else 'failed' end as verified,
 	  case 
-when ((SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) = 'location') and ((SELECT election.lid from roles join election on election.electionID = roles.eid join voters on voters.lid = election.lid WHERE roles.rid = $rid and voters.voterID = (SELECT voterID from voters where vid = $vid)) is not null)
+when ((SELECT make_request from roles where rid = $rid) = 'location') and ((SELECT election.lid from roles join election on election.eid = roles.eid join voters on voters.lid = election.lid WHERE roles.rid = $rid and voters.voterID = (SELECT voterID from voters where vid = $vid)) is not null)
 then 'success'
-	when ((SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) <> 'location')
+	when ((SELECT make_request from roles where rid = $rid) <> 'location')
     then 'not-needed'
 else 'failed' end as location,
 	   case when 
-	(SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) = 'chosen' and (SELECT count(*) FROM registered_voters as rv WHERE rv.eid = (SELECT eid from roles where rid = $rid) and rv.vid = (SELECT voterID from voters where vid = $vid)) 
+	(SELECT make_request from roles where rid = $rid) = 'chosen' and (SELECT count(*) FROM registered_candidates as rc WHERE rc.rid = $rid and rc.vid = (SELECT voterID from voters where vid = $vid)) 
 	    then 'success'
         when 
-	(SELECT authentication from election where electionID = (SELECT eid from roles where rid = $rid)) <> 'chosen'
+	(SELECT make_request from roles where rid = $rid) <> 'chosen'
    then 'not-needed'
         else 'failed'  end as chosen,	
 CASE when (
@@ -53,40 +53,41 @@ CASE when (
             ) as votedFor;
 
 ";
+		echo "<pre>";
 		/* echo $checkIfAllowed; */
 		$result = mysqli_query($conn, $checkIfAllowed);
 		/* echo "hehehe"; */
 		$answer = $result->fetch_assoc();
-		/* echo "<pre>"; */
 		/* print_r($answer); */
-		/* echo "</pre>"; */
+		echo "</pre>";
 
 		$canVote = true;
 		$votedFor = $answer['votedFor'];
 		$failures = $successes = array();
 
-		if ($answer['anyone'] == 'success' || $answer['anyone'] == 'not-needed') {
-			$successes[] = '<p class="'.$answer['anyone'].'">You must have an <i>easyVote</i> account!</p>';
-		} 
-
-		if ($answer['verified'] == 'success' || $answer['verified'] == 'not-needed') {
-			$successes[] = '<p class="'.$answer['verified'].'">Your account must be <i>VERIFIED</i>!</p>';
-		} else {
-			$failures[] = '<p class="'.$answer['verified'].'">Your account <i>isn\'t verified</i>!</p>';
+		if ($answer['anyone'] == 'success') {
+			$successes[] = '<p class="'.$answer['chosen'].'">You must have been<i> REGISTERED</i>!</p>';
+		} else if ($answer['anyone'] == 'failed'){
+			$failures[] = '<p class="'.$answer['chosen'].'">You are <i>NOT REGISTERED</i>!</p>';
 		}
 
-		if ($answer['location'] == 'success' || $answer['location'] == 'not-needed') {
-			$successes[] = '<p class="'.$answer['location'].'">You must belong to the <i>SAME LOCATION</i> where the election is being held!</p>';
-		} else {
-			$failures[] = '<p class="'.$answer['location'].'">You <i>don\'t</i> belong to the <i>SAME LOCATION</i> where the election is being held!</p>';
+		if ($answer['verified'] == 'success') {
+			$successes[] = '<p class="'.$answer['chosen'].'">Your account must be <i>VERIFIED</i>!</p>';
+		} else if ($answer['verified'] == 'failed'){
+			$failures[] = '<p class="'.$answer['chosen'].'">Your account is\'t <i>VERIFIED</i> by the <i>ELECTION MANAGER</i></p>';
 		}
 
-		if ($answer['chosen'] == 'success' || $answer['chosen'] == 'not-needed') {
+		if ($answer['location'] == 'success') {
+			$successes[] = '<p class="'.$answer['chosen'].'">You must be from the <i>SAME LOCATION</i>!</p>';
+		} else if ($answer['location'] == 'failed'){
+			$failures[] = '<p class="'.$answer['chosen'].'">You are <i>NOT FROM THE SAME LOCATION</i> as the election!</p>';
+		}
+
+		if ($answer['chosen'] == 'success') {
 			$successes[] = '<p class="'.$answer['chosen'].'">You must be <i>REGISTERED</i> by the <i>ELECTION MANAGER</i></p>';
-		} else {
+		} else if ($answer['chosen'] == 'failed'){
 			$failures[] = '<p class="'.$answer['chosen'].'">You aren\'t <i>REGISTERED</i> by the <i>ELECTION MANAGER</i></p>';
 		}
-
 		$voteAlready = ($answer['votedAlready'] == 'yes') ? true : false;
 
 		if (!$voteAlready) {
@@ -98,7 +99,9 @@ CASE when (
 		$time = $answer['time'];
 
 		if ($time == 'ended') {
-			$failures[] = '<p class="failed">Time has <i>Ended</i>!</p>';
+			$failures[] = '<p class="failed">Election has <i>Ended</i>!</p>';
+		} else {
+			$successes[] = '<p class="success">Election has <i>NOT ENDED YET</i>!</p>';
 		}
 
 		if (!empty($failures) | $voteAlready) {
@@ -144,22 +147,17 @@ display: inline-block;
 			<tr>
 				<th style="border-bottom: none;"></th>
 				<th>Time</th>
-				<th>Registration</th>
-				<th>Verified Account</th>
-				<th>Same Location</th>
-				<th>Registered by Manager</th>
 				<th>Not Voted Yet</th>
+				<th>Authentication</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<th rowspan="2"  style="border-top: none;">FulFillments</th>
 				<td><p title="<?=$answer['time']?>"><?= ($answer['time'] == 'started') ? '&#9989;' : (($answer['time'] == 'ended') ? '&#10060;' : '&#8213;')?></p></td>
-				<td><p title="<?=$answer['anyone']?>"><?= ($answer['anyone'] == 'success') ? '&#9989;' : (($answer['anyone'] == 'failed') ? '&#10060;' : '&#8213;')?></p></td>
-				<td><p title="<?=$answer['verified']?>"><?= ($answer['verified'] == 'success') ? '&#9989;' : (($answer['verified'] == 'failed') ? '&#10060;' : '&#8213;')?></p></td>
-				<td><p title="<?=$answer['location']?>"><?= ($answer['location'] == 'success') ? '&#9989;' : (($answer['location'] == 'failed') ? '&#10060;' : '&#8213;')?></p></td>
-				<td><p title="<?=$answer['chosen']?>"><?= ($answer['chosen'] == 'success') ? '&#9989;' : (($answer['chosen'] == 'failed') ? '&#10060;' : '&#8213;')?></p></td>
 				<td><p title="<?=$answer['votedAlready']?>"><?= ($answer['votedAlready'] == 'no') ? '&#9989;' : (($answer['votedAlready'] == 'yes') ? '&#10060;' : '&#8213;')?></p></td>
+					<td><p title="authentication"><?php if ($answer['anyone'] != 'failed' && $answer['verified'] != 'failed' && $answer['location'] != 'failed' && $answer['chosen'] != 'failed') {echo '&#9989;';} else{ echo '&#10060;';}?></p></td>
+				<!-- <td><p title="<?=$answer['chosen']?>"><?= ($answer['chosen'] == 'success') ? '&#9989;' : (($answer['chosen'] == 'failed') ? '&#10060;' : '&#8213;')?></p></td>-->
 			</tr>
 		</tbody>
 		<tfoot>
@@ -206,7 +204,7 @@ display: inline-block;
 	}
 } else {
 	$_SESSION['msg'] = 'You need to login first!';
-	redirectHere($_SERVER['PHP_SELF']);
+	redirectHere('localhost'.$_SERVER['REQUEST_URI']);
 	header("Location: ../../../signin.php");
 }
 

@@ -122,14 +122,14 @@ tfoot th:first-child{
 			<tr>
 			<td><?=++$count;?></td>
 				<td>
-				<img src="../../../uploads/profile_picture/<?=$candidate['photo']?>" title="<?=$candidate['name']?>" alt="<?=$candidate['name']?>" class="progress-image">
+				<img src="/easyVote/uploads/profile_picture/<?=$candidate['photo']?>" title="<?=$candidate['name']?>" alt="<?=$candidate['name']?>" class="progress-image">
 			</td>
 				<td>
 				<progress id="file" value="<?=$candidate['votes']?>" max="<?=$candidate['totalVotes']?>">
 				</progress><br><span><?= ($candidate['totalVotes'] != 0) ? round($candidate['votes']/$candidate['totalVotes']*100) .'%' : '0%';?></span>
 				</td>
 				<td><?=$candidate['votes']?></td>
-				<td><button onclick="window.location = './candidate.php?cid=<?=$candidate['candidateID']?>'">View Profile</button></td>
+				<td><button onclick="window.location = '../candidate/profile.php?cid=<?=urlencode($candidate['candidateID'])?>'">View Profile</button></td>
 			</tr>
 <?php
 

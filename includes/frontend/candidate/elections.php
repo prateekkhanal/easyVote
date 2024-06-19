@@ -137,7 +137,7 @@ details {
 			<div class="details">
 			  <p><big>Role:</big> <i><?=$Candidate['position']?></i> </p>
 			  <p><big>Place:</big> <i><?=$Candidate['place']?></i> </p>
-			  <p><big>Party: </big> <?=$Candidate['partyName']?> (<span class="important"><?=$Candidate['partyID']?>)</span></p>
+			  <p><big>Party: </big> <?=$Candidate['partyName']?> (<span><?=$Candidate['partyID']?>)</span></p>
 			  <p><big>Authentication:</big> <span class="important"><?=$Candidate['verified']?></span></p>
 			  <p><big>Moto:</big> <?=$Candidate['moto']?></p>
 			  </div>

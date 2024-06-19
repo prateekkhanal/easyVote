@@ -3,7 +3,7 @@
 include "../../../connect.php";
 
 $eid = $_GET['eid'];
-$rolesQuery = "SELECT roles.position, roles.place from
+$rolesQuery = "SELECT roles.position, roles.place, roles.make_request from
 				election 
 				join roles 
 				on election.electionID = roles.eid
@@ -20,6 +20,7 @@ if ($rolesResult->num_rows > 0) {
 				  <tr>
 					 <th>Position</th>
 					 <th>Place</th>
+					 <th>Authentication</th>
 				  </tr>
 					</thead>
 					<tbody>
@@ -28,6 +29,7 @@ if ($rolesResult->num_rows > 0) {
 		$roles .= '<tr>
 			<td>'.$role['position'].'</td>
 			<td>'.$role['place'].'</td>
+			<td>'.$role['make_request'].'</td>
 			</tr>';
 	}
 		$roles .= '
