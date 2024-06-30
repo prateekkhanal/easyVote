@@ -35,12 +35,12 @@
 	$adminVID = $adminVoterID->fetch_assoc()['voterID'];
 
 	$sql = "
-			SELECT title, position, level, view, start_date, end_date, start_time, end_time, electionID, description, authentication, location_name, voterID, name FROM election JOIN locations on locations.lid = election.lid join voters on voters.vid = election.vid WHERE level LIKE '" . (isset($_GET['role']) ? $_GET['role'] : 'pending') ."' ORDER BY eid DESC;
+			SELECT title, level, view, start_date, end_date, start_time, end_time, electionID, description, location_name, voterID, name FROM election JOIN locations on locations.lid = election.lid join voters on voters.vid = election.vid WHERE level LIKE '" . (isset($_GET['role']) ? '%' : 'pending') ."' ORDER BY eid DESC;
 ";
 	/* echo $sql; */
-			echo "<pre>";
+			/* echo "<pre>"; */
 	$result = mysqli_query($conn, $sql);
-	print_r($result);
+	/* print_r($result); */
 			echo "</pre>";
 	if ($result->num_rows > 0) {
 		while ($row = $result->fetch_assoc()) {

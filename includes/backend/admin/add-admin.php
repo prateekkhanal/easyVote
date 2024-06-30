@@ -36,7 +36,7 @@
 			} catch(Exception $e) {
 				$_SESSION['msg-error'] = 'Sorry, Voter ID <big>\''.$vid.'\'</big> is INVALID!!';
 			}
-			header("Location: ".$_SERVER['PHP_SELF']);
+			header("Location: ".$_SERVER['REQUEST_URI']);
 		}
 ?>
 <h2 style="text-align: center;">ADMINISTRATOR - Admins</h2>
