@@ -1,11 +1,11 @@
 <?php
 	include "../../../connect.php";
+	include "../../../sidebar/left/candidate.php";
+	include "../../../sidebar/sidebar.php";
 	$locQuery = 'SELECT lid, location_name FROM locations';
 	$locationResult = mysqli_query($conn, $locQuery);
 ?>
 
-
-<title>Search Field</title>
 <style>
   .search-wrapper {
     display: flex;
@@ -18,6 +18,8 @@
     border-radius: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added shadow for depth */
 	margin: 50px auto;
+	position: sticky;
+	top: 20px;
   }
 
   .search-input {
@@ -60,7 +62,8 @@
 }
 
 </style>
-<body>
+
+<div class="main">
 
 <div class="search-wrapper">
   <select class="select-left" id="select-left" name="view" onchange="getElections(this.value, this.nextSibling.nextSibling.value, this.nextSibling.nextSibling.nextSibling.nextSibling.value)">
@@ -113,4 +116,5 @@
 	  xmlHttp.send();
   }
 </script>
-</body>
+
+</div>

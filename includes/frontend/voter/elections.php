@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Election Announcement</title>
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -20,7 +14,7 @@ hr {
 	border: 2px solid gray;
 	border-radius: 8px;
 	min-width: 500px;
-	max-width: 70%;
+	max-width: 80%;
 	margin: 15px auto;
 	padding: 5px 15px;
 }
@@ -96,7 +90,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #0071c5;
 }
 
 .status {
@@ -122,83 +116,80 @@ strong+big i {
 </style>
 </head>
 <body>
+<?php
+
+	// get elections
+	$electionsQuery = '
+					SELECT 
+						title, electionID, level, locations.location_name, 
+							(select make_request from roles where eid = election.electionID limit 1)
+									 as authentication , 
+						count(roles.eid) as roles, 
+						election.description, 
+						CASE WHEN (CURDATE() < start_date AND start_date < end_date) 
+						THEN "not-started" WHEN ((CURDATE() = start_date AND CURTIME() < start_time) 
+						AND (start_time <= end_time)) 
+						THEN "not-started" 
+						WHEN ((CURDATE() BETWEEN start_date AND end_date) 
+						AND (start_date < end_date)) then "started" WHEN 
+						((CURDATE() > end_date AND start_date < end_date) 
+						and (start_date <= end_date)) THEN "ended" 
+						WHEN ((CURDATE() = end_date AND CURTIME() < end_time) 
+						and (start_date <= end_date)) THEN "started" 
+						WHEN ((start_date = end_date AND start_time < end_time) 
+						AND (CURTIME() > end_date)) THEN "ended" 
+						WHEN ((start_date = end_date AND start_time < end_time) 
+						AND (CURTIME() < end_date)) THEN "not-started" 
+						WHEN ((CURDATE() = end_date AND CURTIME() > end_time) 
+						AND (start_date <= end_date)) 
+						THEN "ended" ELSE "N/A" 
+						END AS status 
+						FROM election 
+						JOIN locations ON locations.lid = election.lid 
+						LEFT JOIN roles ON roles.eid = election.electionID 
+						WHERE election.level <> "rejected" 
+						and election.view = \'public\' 
+						AND election.lid LIKE \'%\' AND election.title LIKE \'%%\' 
+						GROUP by election.electionID ORDER BY election.eid ; ';
+	/* echo $electionsQuery; */
+	$elections = mysqli_query($conn, $electionsQuery);
+
+
+?>
   <div class="cards" id="cards">
+<?php
+if ($elections->num_rows > 0) {
+	while($election = $elections->fetch_assoc()) {
+		echo "<pre>";
+		/* print_r($election); */
+		echo "</pre>";
+?>
+
   <div class="card">
-	 <h2><a href="javascript: void(0)"> Divya Gyan College Candidate</a><small>
-(<i>662bb68b30eb6</i>)</small>
+  <h2><a href="javascript: void(0)"><?=$election['title']?></a><small>
+  (<i><?=$election['electionID']?></i>)</small>
 </h2>
     <div class="notes">
-        <strong>Level</strong>: <big><i>Custom/National/International</i></big>
+	 <strong>Level</strong>: <big><i><?=$election['level']?></i></big>
 			<br>
-        <strong>Location</strong>: <big><i>Kathmandu</i></big>
+			<strong>Location</strong>: <big><i><?=$election['location_name']?></i></big>
 			<br>
     </div>
-    <div class="candidate-details" onclick="getRoles('D!DCasxCE', this)">
-      <strong>Roles: </strong> 3 (<a href="javascript: void(0)"><i>View Details</i></a>)
+	 <div class="candidate-details" onclick="getRoles('<?=$election['electionID']?>', this)">
+	 <strong>Roles: </strong> <?=$election['roles']?> (<a href="javascript: void(0)"><i>View Details</i></a>)
     </div>
     <div class="additional-info">
-      <p class="description">
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-Elections from now on will be held on this e-voting platform (easyVote)!</p>
+	 <p class="description"><?=$election['description']?></p>
     </div>
-    <button id="spectate">Spectate</button>
-	<a href="javascript: void(0)" class="status started">Started</a>
+	 <button id="spectate" onclick="window.location='/easyVote/includes/frontend/voter/election.php?eid=<?=urlencode($election['electionID'])?>'">Spectate</button>
+	 <a href="javascript: void(0)" class="status <?=$election['status']?>"><?=$election['status']?></a>
   </div>
 <hr>
-  <div class="card">
-	 <h2><a href="javascript: void(0)"> Divya Gyan College Candidate</a><small>
-(<i>662bb68b30eb6</i>)</small>
-</h2>
-    <div class="notes">
-        <strong>Level</strong>: <big><i>Custom/National/International</i></big>
-			<br>
-        <strong>Location</strong>: <big><i>Kathmandu</i></big>
-			<br>
-      <strong>Authentication</strong>: <big><i>Verified Account</i></big> 
-    </div>
-    <div class="candidate-details" onclick="getRoles('D!DCasxCE', this)">
-      <strong>Roles: </strong> 3 (<a href="javascript: void(0)"><i>View Details</i></a>)
-    </div>
-    <div class="additional-info">
-      <p class="description">
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-Elections from now on will be held on this e-voting platform (easyVote)!</p>
-    </div>
-    <button id="spectate">Spectate</button>
-	<a href="javascript: void(0)" class="status ended">Ended</a>
-  </div>
-<hr>
-  <div class="card">
-	 <h2><a href="javascript: void(0)"> Divya Gyan College Candidate</a><small>
-(<i>662bb68b30eb6</i>)</small>
-</h2>
-    <div class="notes">
-        <strong>Level</strong>: <big><i>Custom/National/International</i></big>
-			<br>
-        <strong>Location</strong>: <big><i>Kathmandu</i></big>
-			<br>
-      <strong>Authentication</strong>: <big><i>Verified Account</i></big> 
-    </div>
-    <div class="candidate-details" onclick="getRoles('D!DCasxCE', this)">
-      <strong>Roles: </strong> 3 (<a href="javascript: void(0)"><i>View Details</i></a>)
-    </div>
-    <div class="additional-info">
-      <p class="description">
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-This is an election organized to choose a Mayor for Kathmandu municipality! 
-Elections from now on will be held on this e-voting platform (easyVote)!</p>
-    </div>
-    <button id="spectate">Spectate</button>
-	<a href="javascript: void(0)" class="status not-started">Not started</a>
-  </div>
+<?php
+
+	}
+}
+?>
   </div>
   <script>
 function getRoles(eid, roleContainer) {

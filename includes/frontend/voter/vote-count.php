@@ -1,15 +1,14 @@
 <?php
 
 	include "../../../connect.php";
+	include "../../../sidebar/left/candidate.php";
+	include "../../../sidebar/sidebar.php";
 	$eid = $_GET['eid'];
 	$getRoles = "SELECT rid, position,place FROM roles WHERE roles.eid = '$eid'";
 	$rolesResult = mysqli_query($conn, $getRoles);
 ?>
 
-
-<!DOCTYPE html>
-<html>
-<body>
+<div class="main">
 <style>
 progress {
 -webkit-appearance: none; -moz-appearance: none; appearance: none;height: 40px; width: 800px; border-radius: 10px;
@@ -27,6 +26,7 @@ h2, table {
 	text-align: center;
 	margin: auto;
 	font-size: 30px;
+	margin-left: 70px;
 }
 h2 {
 	margin: 30px auto;
@@ -47,6 +47,7 @@ table {
 	text-align: center;
 	border-collapse: collapse;
 	margin-bottom: 40px;
+	min-width: 1240px;
 }
 table tbody td img {
 	max-height: 100px;
@@ -156,9 +157,4 @@ tfoot th:first-child{
 		echo "<h2><i>There are no Roles yet Defined for this election!</i></h2>";
 	}
 ?>
-<script>
-</script>
-
-</body>
-</html>
-
+</div>

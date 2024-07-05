@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Election</title>
+<?php
+	include "../../backend/manager/election-timer.php";
+	include "../../../sidebar/left/candidate.php";
+	include "../../../sidebar/sidebar.php";
+?>
+<div class="main">
   <style>
 * {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "Lato", sans-serif;
 	padding: 0px;
 	margin: 0px;
 }
@@ -14,49 +14,63 @@
 	grid-area: menu;
 	position: fixed;
 	top: 350px;
-	left: 250px;
+	left: 300px;
 	z-index: 0.5;
 }
 .sidebar-page ul li, a {
 	list-style: none;
 	text-decoration: none;
 	font-style: italic;
-	font-size: 1.25em;
+	font-size: 0.9em;
 	margin: 15px 0px;
 	color: black;
 	
 }
-.main-content { grid-area: main;
-	margin-right: 100px;
-	margin-left: 100px;
-	padding-left: 400px;
-	padding-right: 225px;
-	padding-top: 125px;
+.main-content {
+	grid-area: main;
+	margin-right: 50px;
+	margin-left: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 10px;
 	padding-bottom: 125px;
-	font-size: 1.25em;
+	font-size: 1em;
+	max-width: 1000px;
+	min-width: 1000px;
+	text-align: justify;
  }
+
+table {
+	font-size: 0.9em;
+	min-width: 400px;
+	
+}
 
 .container {
   display: grid;
   grid-template-areas:
     'footer footer footer footer menu';
   /* background-color: #2196F3; */
-  background-color: lightgray;
+  /* background-color: lightgray; */
 }
 
 .grid-container > div {
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 20px 0;
-  font-size: 30px;
+  font-size: 25px;
 }
 
+.description {
+	min-width: 1000px;
+	font-size: 0.9em;
+}
 table {
 	border-collapse: collapse;
 }
 table th, td{
 	border: 2px solid black;
-padding: 15px;
+padding: 10px;
 }
 	
 table td img {
@@ -70,8 +84,6 @@ h2.center {
 }
 
   </style>
-</head>
-<body>
   <div class="container">
     <div class="main-content">
 <?php
@@ -117,11 +129,14 @@ where electionID = '$eid';
 ?>
 	<h2 class="center"><?=$electionDetail['title']?>&ensp;&ensp;<?php include "./pinning-elections.html"; include "./pinning-elections.php";?></h2> 
 		<h2 class="center">(<?=$electionDetail['electionID']?>)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</h2><br>
+<br>
+<hr>
+<br>
       <h2 id="election">Election Details</h2><br>
 		<p><span class="title">Level : </span><?=$electionDetail['level']?></p>
 		<p><span class="title">View : </span><?=$electionDetail['view']?></p>
 		<p><span class="title">Location : </span><?=$electionDetail['location_name']?></p><br>
-		<p><span class="title">Schedule : </span>
+		<p><span class="title">Schedule : </span><br><br>
 <table>
 	<thead>
 	  <tr>
@@ -266,9 +281,12 @@ $getRoles = "
 	<p><span class="title">Description : </span><br><br>
 <?php foreach($partiesDescriptions as $partyDescription) {?>
 	<?=$partyCount++?>. <?=$partyDescription?><br><br>
-</p></div>
 <?php
 	}
+
+?>
+	</p></div>
+<?php
 		} else {
 			echo "<p>Manager has not created any parties yet!</p>";
 		}
@@ -276,7 +294,7 @@ $getRoles = "
 <br>
     <div class="sidebar-page">
       <ul>
-			<h2>Navigation</h2>
+			<h4>Navigation</h4>
         <li><a href="#election">Details</a></li>
         <li><a href="#roles">Roles</a></li>
         <li><a href="#parties">Parties</a></li>
@@ -285,7 +303,6 @@ $getRoles = "
       </ul>
     </div>
   </div>
-	<div>
 <?php
 
 		} else {
@@ -298,5 +315,4 @@ $getRoles = "
 	}
 ?>
 </div>
-</body>
-</html>
+</div>

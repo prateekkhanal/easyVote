@@ -1,6 +1,9 @@
+
 <?php
 
 session_start();
+include "../../../sidebar/left/candidate.php";
+include "../../../sidebar/sidebar.php";
 include "./pinning-elections.html";
 include "../../../connect.php";
 $vid = $_SESSION['vid'];
@@ -28,14 +31,17 @@ $pinnedElectionsResult = mysqli_query($conn, $getPinnedElections);
 
 ?>
 
+<div class="main">
+<div class="favs">
 
 <style>
 	* {
-		font-family: Arial, Helvetica, sans-serif;
+		font-family: "Lato", sans-serif;
 	 }
 	table {
-		font-size: 1.50em;
+		font-size: 0.9em;
 		margin: auto;
+		min-width: 1200px;
 	}
 	thead th {
 		text-transform: uppercase;
@@ -57,9 +63,45 @@ $pinnedElectionsResult = mysqli_query($conn, $getPinnedElections);
 		text-align: center;
 		font-size: 2em;
 }
+.favs {
+	padding-top: 50px;
+	max-width: 1200px;
+	margin: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: 600;
+	 text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
 </style>
 
 	<h1>Pinned Elections</h1>
+<hr><br>
 
 	<table border=2 cellspacing=0 cellpadding=10>
 		<thead>
@@ -76,7 +118,7 @@ $pinnedElectionsResult = mysqli_query($conn, $getPinnedElections);
 	?>
 		<tr>
 			<td><?php echo $count++; ?></td>
-			<td><a href="http://localhost/easyVote/includes/frontend/voter/election.php?eid=<?=urlencode($row['electionID'])?>"><?php echo $row['title'] . " (<i>" .$row['electionID'] . "</i>) "; $pinned= true; $eid = $row['eid'];?></p></td>
+			<td><a href="/easyVote/includes/frontend/voter/election.php?eid=<?=urlencode($row['electionID'])?>"><?php echo $row['title'] . " (<i>" .$row['electionID'] . "</i>) "; $pinned= true; $eid = $row['electionID'];?></p></td>
 			<td><?php echo $row['status'] ?></td>
 			<td><?php include "./pinning-elections.php"?></td>
 		</tr>
@@ -92,3 +134,6 @@ $pinnedElectionsResult = mysqli_query($conn, $getPinnedElections);
 		?>
 		</tbody>
 	</table>
+
+</div>
+</div>

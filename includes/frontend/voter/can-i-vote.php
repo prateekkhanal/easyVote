@@ -2,6 +2,7 @@
 session_start();
 include "../../../connect.php";
 include "../../regular_functions.php";
+include "../../../sidebar/sidebar.php";
 
 $rid = (isset($_GET['rid']) ? $_GET['rid'] : '');
 
@@ -113,7 +114,8 @@ CASE when (
 		/* echo "</pre>"; */
 		if ($_GET['check'] == "true") {
 ?>
-	<hr>
+<div class="main">
+<div class="check">
 	<style>
 		table th {
 	padding: 20px;
@@ -124,8 +126,8 @@ CASE when (
 p {
 	padding: 10px;
 }
-		td {
-			font-size: 50px;
+		td,th {
+			font-size: 30px;
 			text-align: center;
 		}
 	
@@ -133,14 +135,35 @@ h2 {
 	font-style: italic;
 }
 .descriptions p {
-display: inline-block;
+	display: inline-block;
+	font-size: 25px;
+	margin: 5px auto;
 }
+.check {
+	max-width: 1100px;
+	margin: auto;
+	font-size: 0.8em;
+	margin-top: -30px;
+	padding-top: 50px;
+}
+ .check p {
+	font-size: 1em;
+}
+ .check table {
+	font-size: 0.7em;
+}
+.main {
+background-color: #d3d3d333;
+}
+
 	</style>
+<center>
 <h1>Can I Vote? </h1>
+</center>
+	<hr>
 <h2>Quick Answer : <big><?=($canVote) ? 'Yes' : 'No'?></big></h2>
-<br>
 <hr>
-<h1>Summary</h1>
+<h2>Summary</h2>
 	<table border="1" cellpadding="10" cellspacing="0">
 		<thead>
 			<tr><th colspan="7">Requirements</th></tr>
@@ -166,7 +189,7 @@ display: inline-block;
 	<br>
 	<hr>
 	<br>
-<h1>Status Descriptions</h1>
+<h2>Status Descriptions</h2>
 <div class="descriptions">
 	<div class="failures">
 		<h2>Failures</h2>
@@ -209,3 +232,6 @@ display: inline-block;
 }
 
 ?>
+</div>
+</div>
+

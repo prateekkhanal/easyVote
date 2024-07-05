@@ -62,10 +62,7 @@
 
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 .candidate {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -136,9 +133,7 @@ button:hover, a:hover {
   opacity: 0.7;
 }
 </style>
-</head>
-<body>
-
+<div class="main">
 <h2 style="text-align:center">Candidates</h2>
 
 <?php
@@ -212,5 +207,5 @@ function vote(vid, cid) {
     xmlhttp.send();
 }
 </script>
-</body>
-</html>
+
+</div>
