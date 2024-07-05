@@ -1,29 +1,7 @@
 <?php
-	$roles = ['pending', 'accepted', 'rejected'];
+	include "/easyVote/includes/backend/manager/view-election.php";
+?>
 
-	foreach ($roles as $role) {
-		$CandidatesSql = " 
-						SELECT *,candidate.description as moto, 
-									parties.name as partyName,
-									candidate.vid as cID, 
-									mvoters.voterID as mID
-					 FROM candidate 
-						join election on
-							 election.electionID = candidate.eid 
-						join roles on
-							 roles.rid = candidate.rid 
-						join parties on
-							 parties.partyID = candidate.pid 
-						join voters as cvoters on
-							 cvoters.voterID = candidate.vid 
-						join voters as mvoters on
-							 mvoters.vid = election.vid 
-						where candidate.vid = (
-									select voterID from voters where vid = " . $_SESSION['vid'] . "
-												) 
-						and verified = '$role';";
-		/* echo $CandidatesSql; */
-	?>
 <style>
 .candidate {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -116,13 +94,55 @@ details {
 	text-decoration: underline;
 	color: darkblue;
 }
+.requests {
+	max-width: 1000px;
+	margin: auto;
+}
 </style>
+<div class="main">
+
+<center>
+	<h2>Candidate Requests</h2>
+<hr>
+</center>
+<div class="requests">
+<?php
+
+include "../../../sidebar/sidebar.php";
+
+session_start();
+	$roles = ['pending', 'accepted', 'rejected'];
+
+	foreach ($roles as $role) {
+		$CandidatesSql = " 
+						SELECT *,candidate.description as moto, 
+									parties.name as partyName,
+									candidate.vid as cID, 
+									mvoters.voterID as mID
+					 FROM candidate 
+						join election on
+							 election.electionID = candidate.eid 
+						join roles on
+							 roles.rid = candidate.rid 
+						join parties on
+							 parties.partyID = candidate.pid 
+						join voters as cvoters on
+							 cvoters.voterID = candidate.vid 
+						join voters as mvoters on
+							 mvoters.vid = election.vid 
+						where candidate.vid = (
+									select voterID from voters where vid = " . $_SESSION['vid'] . "
+												) 
+						and verified = '$role';";
+		/* echo $CandidatesSql; */
+	?>
+
 <?php
 /* echo $CandidatesSql; */
 		$resultPC = mysqli_query($conn, $CandidatesSql);
 		$Candidates = mysqli_fetch_all($resultPC, MYSQLI_ASSOC);
 		echo "<details class=\"".$role."\">";
-		echo "<summary><span class=\"title\">Requests ". (($role == 'pending') ? 'Pending' : (($role == 'accepted') ? 'Approved' : 'Rejected')) . " (".count($Candidates). ")</span></summary>";
+		echo "<summary><span class=\"title\">". (($role == 'pending') ? 'Pending' : (($role == 'accepted') ? 'Approved' : 'Rejected')) . " (".count($Candidates). ")</span></summary>";
 		if (count($Candidates) > 0) {
 		foreach ($Candidates as $Candidate) {
 			echo "<pre>";
@@ -157,3 +177,6 @@ details {
 	details[0].open = true;
 
 	</script>
+
+</div>
+</div>

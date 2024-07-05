@@ -2,6 +2,7 @@
 session_start();
 include "../../../connect.php";
 include "../../regular_functions.php";
+ include "../../../sidebar/sidebar.php";
 displayMessage();
 
 // Check if user is logged in
@@ -108,24 +109,11 @@ if (!empty($_POST)) {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-				font-size: 17px;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 50px auto;
-            padding: 20px;
+            padding: 30px;
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -171,13 +159,14 @@ if (!empty($_POST)) {
 				font-weight: bold;
 			}
         button {
-            padding: 10px 20px;
-            background-color: #007bff;
+            padding: 15px 20px;
+            background-color: #133150;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-				font-size: 17px;
+				font-size: 25px;
+				font-weight: bold;
         }
         button:hover {
             background-color: #0056b3;
@@ -195,8 +184,7 @@ if (!empty($_POST)) {
 			display: none;
 			}
     </style>
-</head>
-<body>
+<div class="main">
     <div class="container">
 		 <h1>Update Profile</h1>
 			<p><a href="javascript: void(location.reload())" id="reset">RESET</a></p>
@@ -402,6 +390,5 @@ if (!empty($_POST)) {
 	  });
  });
 </script>
-</body>
-</html>
 
+</div>

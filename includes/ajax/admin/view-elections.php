@@ -16,10 +16,23 @@ $elections = "";
 
 if ($rows && $rows->num_rows > 0) {
     while ($row = $rows->fetch_assoc()) {
+		$rolesSql = "SELECT distinct position from roles where eid = '".$row['electionID']."'";
+		/* echo $rolesSql; */
+		$roles = mysqli_query($conn, $rolesSql);
+		$role = '';
+		if ($roles->num_rows == 0) {
+			$role .= "⸻";
+		} else {
+			while($r = $roles->fetch_assoc()) {
+				$role.= $r['position'].'<br>';
+			}
+		}
+
+
 ?>
 <?php $elections .= '
-				<div style="float: left; background-color: #4285F4; text-align:center; width: max-content; margin: 20px; padding: 10px; border-radius: 7px;">
-			<h2 style="text-align: center; font-style: italic; color: white; font-size: bigger; text-transform: uppercase; margin-bottom: 9px;">'. $row['status'].'</h2>
+				<div style="float: left; background-color: #E70808D9; margin-left: 350px;color: white; text-align:center; width: max-content; margin: 20px; padding: 20px; border-radius: 7px;"><center>
+			<h2 style="text-align: center; font-style: italic;  font-size: 25px; text-transform: uppercase; margin-bottom: 9px;">'. $row['status'].'</h2>
 			<h2 style="text-align: center; margin-bottom: 9px; font-size: x-large;">'. $row['title'].'</h2>
 			<big><div style="text-align: center; font-family:Arial, Helvetica, sans-serif;  font-weight: bold; color: lightgreen;" title="Election ID">'. $row['electionID'].'
 			<div style="text-align: center; font-style:italic;color: lightblue; display: inline-block;" title="Election ID">('. $row['level'].'/'. $row['view'].')</div>
@@ -28,7 +41,7 @@ if ($rows && $rows->num_rows > 0) {
 			<p style="text-align: center; margin: auto; margin-top: 10px; border: 2px; border-radius: 7px; width: 600px;">'. $row['description'].'</p>
 			<p>
 			</p>
-			<table border=2 cellspacing=0 cellpadding=10>
+			<table border=2 cellspacing=0 cellpadding=10 style="min-width: 800px;max-width: 800px; color: white; border-collapse: collapse; margin: auto;">
 				<thead>
 					<th>Location</th>
 					<th>Position</th>
@@ -41,7 +54,7 @@ if ($rows && $rows->num_rows > 0) {
 				<tbody>
 				<tr>
 					<td>' . $row['location_name'] . '</td>
-					<td>' . $row['position'] . '</td>
+					<td>'. $role .'</td>
 					<td>' . $row['start_date'] . '</td>
 					<td>' . $row['end_date'] . '</td>
 					<td>' . $row['start_time'] . '</td>
@@ -75,6 +88,7 @@ if ($rows && $rows->num_rows > 0) {
 				<button onclick="window.location.href=\'../../backend/contact/email.php?s='.$adminVID.'&r='.$row['voterID'].'&role=manager&et='.$row['title'].'&eid='.$row['electionID'].'\'" style="margin-right: 10px; margin-top: 5px;">Contact Manager</button>
 				<button data-value1="'.$row['electionID'].'" data-value2="'.$row['title'].'" onclick="if (confirm(\'Do you really want to delete this election?\')) {deleteElection(this)} else {event.preventDefault()}">Delete</button>
 			</div>
+<center>
 		</div>
 
 ';

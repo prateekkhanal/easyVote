@@ -1,6 +1,7 @@
 <?php
 
 	include "../../../connect.php";
+	include "../../../sidebar/sidebar.php";
 	include "../../regular_functions.php";
 
 	session_start();
@@ -58,11 +59,12 @@
 		.description {
 			max-width: 800px;
 			padding: 20px;
-			font-size: 1.15em;
+			font-size: 0.8em;
 			margin: auto;
 		}
 		textarea {
-			font-size: 1.15em;
+			font-size: 0.8em;
+			max-width: 800px;;
 		}
         h1 {
             text-align: center;
@@ -110,7 +112,7 @@
 				font-size: 17px;
 				font-weight: bold;
 				text-transform: uppercase;
-				font-size: 1.15em;
+				font-size: 0.7em;
         }
 		  button:nth-last-child(1) {
 				float: right;
@@ -134,6 +136,7 @@
 			}
     </style>
 
+<div class="main">
 <form action="" method="POST">
 
     <div class="container">
@@ -215,3 +218,5 @@
 		echo "You need to login first!";
 	}
 ?>
+
+</div>

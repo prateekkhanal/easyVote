@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "connect.php";
+include "./sidebar/sidebar.php";
 include "./includes/regular_functions.php";
 displayMessage();
 
@@ -69,14 +70,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_param("ssssssssss", $name, $email, $age, $lid, md5($password_1), $frontImage, $backImage, $citizenship_number, $voterID, $profilePicture);
             
             if ($stmt->execute()) {
-                $_SESSION['msg-success'] = "Signup successful.";
+                $_SESSION['msg-success'] = "Signup successful!";
+					 echo "<script>window.location = \"/easyVote/signin.php\";</script>";
             } else {
-                $_SESSION['msg-error'] = "Error occurred while signing up.";
+                $_SESSION['msg-error'] = "Please use your original unused citizenship-number or email!";
             }
         } else {
             $_SESSION['msg-error'] = "Error uploading files.";
         }
-		  header("Location: ". $_SERVER['PHP_SELF']);
     }
 }
 ?>
@@ -128,12 +129,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			}
         button {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #002D72;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-				font-size: 17px;
+				font-size: 20px;
 				margin-top: 20px;
         }
         button:hover {

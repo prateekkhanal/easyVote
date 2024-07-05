@@ -1,5 +1,5 @@
 <?php
-
+/* echo 'hellow'; */
 $host="localhost";
 $user="admin";
 $password="admin";

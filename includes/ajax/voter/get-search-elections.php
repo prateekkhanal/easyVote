@@ -27,6 +27,7 @@ if ($view == 'public') {
 	$electionsQuery .= '\'private\' AND election.lid LIKE \''.$lid.'\' AND election.electionID = \''.$q.'\'';
 }
 	$electionsQuery .=  ' GROUP by election.electionID ORDER BY election.eid desc;';
+/* echo $electionsQuery; */
 $electionsResult = mysqli_query($conn, $electionsQuery);
 $count = false;
 $elections = '';

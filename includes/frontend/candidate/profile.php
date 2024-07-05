@@ -2,6 +2,7 @@
     session_start();
     include "../../../connect.php";
     include "../../regular_functions.php";
+	include "../../../sidebar/sidebar.php";
 
     // Check if user is logged in
     if (!isset($_SESSION['vid'])) {
@@ -37,12 +38,6 @@ echo "<pre>";
 echo "</pre>";
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,7 +58,7 @@ echo "</pre>";
             display: flex; /* Use flexbox layout */
             align-items: flex-start; /* Align items to the start (top) */
 				justify-content: space-around;
-				font-size: 1.3em;
+				font-size: 1em;
 				border: none;
             box-shadow: 0 0 0px rgba(0, 0, 0, 0);
         }
@@ -89,9 +84,25 @@ echo "</pre>";
             margin: auto; /* Push the image to the right */
 				border-radius: 50%;
         }
-    </style>
-</head>
-<body>
+	table {
+	 font-size: 25px;
+	min-width: 800px;
+}
+	button, label {
+		font-size: 26px;
+}
+	.locations a,input{
+		 font-size: 22px;
+}
+	.locations {
+		max-width: 800px;
+		margin: auto;
+}
+	table td {
+		padding: 20px;
+}
+</style>
+<div class="main">
     <div class="container parent">
 	  <h1>Candidate Profile</h1>
     <div class="container photo">
@@ -120,5 +131,4 @@ echo "</pre>";
 		  }
 ?>
     </div>
-</body>
-</html>
+    </div>

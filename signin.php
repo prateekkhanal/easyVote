@@ -2,6 +2,7 @@
 session_start(); // Start session
 
 include "./includes/regular_functions.php";
+include "./sidebar/sidebar.php";
 
 // print any errors
 displayMessage();
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Hash the password (assuming it's stored as MD5 hash)
         $hashed_password = md5($password);
         // Prepare and execute query to check if user exists
-        $stmt = $conn->prepare("SELECT vid, email, name FROM voters WHERE email = ? AND password = ?");
+        $stmt = $conn->prepare("SELECT vid, voterID, email, name FROM voters WHERE email = ? AND password = ?");
         $stmt->bind_param("ss", $email, $hashed_password);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -42,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = $result->fetch_assoc();
             $_SESSION['email'] = $row['email'];
             $_SESSION['vid'] = $row['vid'];
+            $_SESSION['voterID'] = $row['voterID'];
             $_SESSION['name'] = $row['name'];
             $_SESSION['role'] = 'voter';
             // Redirect to the previous page or index.php if not set
@@ -108,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 			button {
 				 padding: 10px 20px;
-				 background-color: #007bff;
+				 background-color: #002D72;
 				 color: #fff;
 				 border: none;
 				 border-radius: 5px;

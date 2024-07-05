@@ -1,7 +1,33 @@
-<!DOCTYPE html>
+<style>
+table,button , select, input{
+	font-size: 25px;
+}
+table {
+	text-align: center;
+}
+
+.elections {
+	padding-top: 50px;
+	max-width: 1200px;
+	margin: auto;
+	font-size: 23px;
+}
+.elections table {
+	font-size: 23px;
+}
+	.elections input {
+		padding: 10px;
+		width: 500px;
+}
+	.elections input::placeholder {
+		font-size: 25px;
+		font-style: italic;
+}
+</style>
 <?php
 
 	include "../../../connect.php";
+	include "../../../sidebar/sidebar.php";
 	include "../../regular_functions.php";
 
 	if (role() != 'admin') {
@@ -9,6 +35,8 @@
 	}
 	displayMessage();
 	echo '
+<div class="main">
+<div class="elections">
 	<h2 style="text-align: center; color: red;">ADMINISTRATOR - Elections Panel</h2>
 <hr><br>
 	<input type="text" id="name" placeholder="SEARCH" name="name">
@@ -44,12 +72,15 @@
 			echo "</pre>";
 	if ($result->num_rows > 0) {
 		while ($row = $result->fetch_assoc()) {
+		$rolesSql = "SELECT distinct position from roles where eid = '".$row['electionID']."'";
+		$roles = mysqli_query($conn, $rolesSql);
 			/* print_r($row); */
 
 ?>
+
 	<div id="elections">
-				<div style="float: left; background-color: #4285F4; text-align:center; width: max-content; margin: 20px; padding: 10px; border-radius: 7px;">
-			<h2 style="text-align: center; font-style: italic; color: white; font-size: bigger; text-transform: uppercase; margin-bottom: 9px;"><?=$row['status']?></h2>
+				<div style=" background-color: #E70808D9; text-align:center; color: white; width: max-content; margin: 20px; padding: 40px; border-radius: 7px;">
+			<h2 style="text-align: center; font-style: italic; font-size: 20px; text-transform: uppercase; margin-bottom: 9px;"><?=$row['status']?></h2>
 			<h2 style="text-align: center; margin-bottom: 9px; font-size: x-large;"><?=$row['title']?></h2>
 			<big><div style="text-align: center; font-family:Arial, Helvetica, sans-serif;  font-weight: bold; color: lightgreen;" title="Election ID"><?=$row['electionID']?>
 			<div style="text-align: center; font-style:italic;color: lightblue; display: inline-block;" title="Election ID">(<?=$row['level']?>/<?=$row['view']?>)</div>
@@ -58,7 +89,7 @@
 			<p style="text-align: center; margin: auto; margin-top: 10px; border: 2px; border-radius: 7px; width: 600px;"><?=$row['description']?></p>
 			<p>
 			</p>
-			<table border=2 cellspacing=0 cellpadding=10>
+			<table border=2 cellspacing=0 cellpadding=10  style="min-width: 800px;max-width: 800px; color: white; margin: auto;">
 				<thead>
 					<th>Location</th>
 					<th>Position</th>
@@ -71,7 +102,17 @@
 				<tbody>
 				<tr>
 					<td><?php echo $row['location_name'] ?></td>
-					<td><?php echo $row['position'] ?></td>
+					<td>
+<?php
+		if ($roles->num_rows == 0) {
+			echo "⸻";
+		} else {
+			while($role = $roles->fetch_assoc()) {
+				echo $role['position'].'<br>';
+			}
+		}
+?>
+</td>
 					<td><?php echo $row['start_date'] ?></td>
 					<td><?php echo $row['end_date'] ?></td>
 					<td><?php echo $row['start_time'] ?></td>
@@ -159,3 +200,5 @@
 	  document.getElementById("level").addEventListener("change", searchElections);
  </script>
 
+</div>
+</div>

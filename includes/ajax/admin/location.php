@@ -15,7 +15,7 @@ if ($rows && $rows->num_rows > 0) {
         <tr>
 				<td>'.$row['lid'].'</td>
             <td>'.$row['location_name'].'</td>
-            <td>[<a href="location_update.php?title='.$row['location_name'] .'&lid='.$row['lid'].'">Edit</a>]<br>[<a href="location_delete.php?title='.$row['location_name'].'&lid='.$row['lid'].'">Delete</a>]</td>
+            <td><a href="location_update.php?title='.$row['location_name'] .'&lid='.$row['lid'].'"><img src="/easyVote/uploads/icons/edit.png"></a>&ensp;&ensp;<a href="location_delete.php?title='.$row['location_name'].'&lid='.$row['lid'].'"><img src="/easyVote/uploads/icons/delete.png"></a></td>
         </tr>';
     }
 	 echo $records;

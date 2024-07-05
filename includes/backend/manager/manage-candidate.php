@@ -1,23 +1,8 @@
 <!doctype html>
-<?php
-	$roles = ['pending', 'accepted', 'rejected'];
-
-	foreach ($roles as $role) {
-		$CandidatesSql = " 
-							SELECT *, (SELECT voterID from voters WHERE vid = ". $_SESSION['vid'] . ") as mid, candidate.description as moto FROM candidate 
-							JOIN 		voters 		ON 
-							voters.voterID 	=	 candidate.vid 
-							JOIN	   roles 		ON 
-							roles.rid 			= 	candidate.rid 
-							JOIN	   election 		ON 
-							election.electionID 			= 	candidate.eid 
-							WHERE candidate.verified = '$role' 
-							AND candidate.eid = '".$_GET['eid']."'" . 
-							(isset($_GET['pid']) ? " and candidate.pid = '" .$_GET['pid']."'" : ' ') .
-						  (isset($_GET['rid']) ? " and candidate.rid = '" .$_GET['rid']."'" : ' ') . "; ";
-
-		/* echo $CandidatesSql; */
-	?>
+<center>
+<h2>Candidates Requests</h2>
+</center>
+<hr>
 <style>
 .candidate {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -119,11 +104,30 @@ details {
 }
 </style>
 <?php
+	$roles = ['pending', 'accepted', 'rejected'];
+
+	foreach ($roles as $role) {
+		$CandidatesSql = " 
+							SELECT *, (SELECT voterID from voters WHERE vid = ". $_SESSION['vid'] . ") as mid, candidate.description as moto FROM candidate 
+							JOIN 		voters 		ON 
+							voters.voterID 	=	 candidate.vid 
+							JOIN	   roles 		ON 
+							roles.rid 			= 	candidate.rid 
+							JOIN	   election 		ON 
+							election.electionID 			= 	candidate.eid 
+							WHERE candidate.verified = '$role' 
+							AND candidate.eid = '".$_GET['eid']."'" . 
+							(isset($_GET['pid']) ? " and candidate.pid = '" .$_GET['pid']."'" : ' ') .
+						  (isset($_GET['rid']) ? " and candidate.rid = '" .$_GET['rid']."'" : ' ') . "; ";
+
+		/* echo $CandidatesSql; */
+	?>
+<?php
 /* echo $CandidatesSql; */
 		$resultPC = mysqli_query($conn, $CandidatesSql);
 		$Candidates = mysqli_fetch_all($resultPC, MYSQLI_ASSOC);
 		echo "<details class=\"".$role."\">";
-		echo "<summary><span class=\"title\">Candidate ". (($role == 'pending') ? 'Requests' : (($role == 'accepted') ? 'Approved' : 'Rejected')) . " (".count($Candidates). ")</span></summary>";
+		echo "<summary><span class=\"title\">". (($role == 'pending') ? 'Requests' : (($role == 'accepted') ? 'Approved' : 'Rejected')) . " (".count($Candidates). ")</span></summary>";
 		if (count($Candidates) > 0) {
 		foreach ($Candidates as $Candidate) {
 			echo "<pre>";

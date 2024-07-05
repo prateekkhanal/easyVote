@@ -1,5 +1,6 @@
 <?php
 	require "../../../connect.php";
+	require "../../../sidebar/sidebar.php";
 	include "../../regular_functions.php";
 
 	session_start();
@@ -27,7 +28,46 @@
 		}
 	}
 ?>
+<style>
+	form input, select, textarea {
+	font-size: 20px;
+	font-family: "Lato", sans-serif;
+	max-width: 600px;
+}
+textarea {
+	border-radius: 8px;
+}
+form select, input {
+	font-size: 23px;
+	width: 300px;
+	padding: 2px;
+}
+	
+	form {
+		background-color:#80808017;
+		margin: auto;
+		padding: 30px;
+		border-radius: 8px;
+		max-width: 600px;
+		border: 1px solid #ddd;
+}
+	form button {
+	width: max-content;
+	border: 1px solid #000000;
+	border-radius: 8px;
+	padding: 12px 15px;
+	text-decoration: none;
+	color: white;
+	background-color: #1B4D3E;
+	font-weight: bold;
+	font-size: 25px;
+}
+</style>
+<div class="main">
+<center>
 <h1>Update the FAQ</h1>
+</center>
+<hr><br>
 <form action="" method="POST">
 	<label for="Question">Question : </label><br>
 	<textarea id="question" name="question" rows="5" cols="100"><?= $row['question']?></textarea><br><br>
@@ -43,6 +83,8 @@
 	</select><br><br>
 	<label for="category">Category : </label><br>
 	<input type="text" id="category" name="category" value="<?= $row['category'] ?>"><br><br>
-	<button name="update">Submit</button>
+	<button name="update">UPDATE</button>
 </form>
 <br>
+
+</div>

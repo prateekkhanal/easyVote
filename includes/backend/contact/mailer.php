@@ -47,7 +47,7 @@
 		 //Content
 		 $mail->isHTML(true);                                  //Set email format to HTML
 		 $mail->Subject = $_POST['subject'];
-		 $mail->Body    = 'From: ' . $s . "(".$_SESSION['role'].")<br><br><br>To : You (". $role .")<br><br><br> ". $election.  $_POST['message'];
+		 $mail->Body    = 'From: ' . $s . "(".$_SESSION['role'].")<br>To : You (". $role .")<br><br><br> ". $election.  $_POST['message'];
 		 $mail->AltBody = $_POST['message'];
 
 		 $mail->send();

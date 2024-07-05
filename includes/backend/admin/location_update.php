@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	include "../../regular_functions.php";
+	include "../../../sidebar/sidebar.php";
 	displayMessage();
 
 	require "../../../connect.php";
@@ -28,10 +29,34 @@
 	$result = mysqli_query($conn, $sql);
 	$row = $result->fetch_assoc();
 ?>
-<h1>Update the Locations</h1>
+<style>
+	form button,label,input{
+		margin-left: 240px;
+		font-size: 25px;
+}
+.update {
+	width: max-content;
+	border: 1px solid #000000;
+	border-radius: 8px;
+	padding: 12px 15px;
+	text-decoration: none;
+	color: white;
+	background-color: #2c3968;
+	font-weight: bold;
+}
+form input {
+	padding: 10px;
+}
+</style>
+<div class="main">
+<center><h1>Update the Locations</h1></center>
+<hr>
+<br>
 <form action="?lid=<?=$lid?>&oldLocation=<?=$row['location_name']?>" method="POST">
 	<label for="location">Location : </label><br>
 	<input type="text" id="location" name="location" value="<?= $row['location_name'] ?>"><br><br>
-	<button name="update">Submit</button>
+	<button name="update" class="update">Update</button>
 </form>
 <br>
+
+</div>

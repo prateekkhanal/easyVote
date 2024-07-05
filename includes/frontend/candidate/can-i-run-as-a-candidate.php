@@ -2,6 +2,7 @@
 session_start();
 include "../../../connect.php";
 include "../../regular_functions.php";
+include "../../../sidebar/sidebar.php";
 
 if (isset($_SESSION['vid'])) {
 	$vid = $_SESSION['vid'];
@@ -119,7 +120,6 @@ $getCandidateInfo = "
 					/* echo "</pre>"; */
 			if ($_GET['check'] == "true") {
 	?>
-		<hr>
 		<style>
 			table th {
 		padding: 20px;
@@ -130,23 +130,48 @@ $getCandidateInfo = "
 	p {
 		padding: 10px;
 	}
-			td {
-				font-size: 50px;
-				text-align: center;
-			}
+	td {
+		font-size: 50px;
+		text-align: center;
+	}
+	th {
+		font-size: 28px;
+	}
 		
 	h2 {
 		font-style: italic;
 	}
 	.descriptions p {
 	display: inline-block;
+		margin: 10px auto;
+		font-size: 25px;
 	}
+.check {
+	max-width: 1100px;
+	margin: auto;
+	margin-top: -30px;
+	padding-top: 50px;
+	font-size: 0.8em;
+}
+ .check p {
+	font-size: 1em;
+}
+ .check table {
+	font-size: 1em;
+}
+.main {
+background-color: #d3d3d333;
+}
 		</style>
+<div class="main">
+<div class="check">
+<center>
 	<h1>Can I Run As a Candidate?</h1>
+</center>
+		<hr>
 	<h2>Quick Answer : <big><?=($canRun) ? 'Yes' : 'No'?></big></h2>
-	<br>
 	<hr>
-	<h1>Summary</h1>
+	<h2>Summary</h2>
 		<table border="1" cellpadding="10" cellspacing="0">
 			<thead>
 				<tr><th colspan="7">Requirements</th></tr>
@@ -172,8 +197,7 @@ $getCandidateInfo = "
 		</table>
 		<br>
 		<hr>
-		<br>
-	<h1>Status Descriptions</h1>
+	<h2>Status Descriptions</h2>
 	<div class="descriptions">
 		<div class="failures">
 			<h2>Failures</h2>
@@ -216,4 +240,5 @@ $getCandidateInfo = "
 }
 
 ?>
-
+</div>
+</div>

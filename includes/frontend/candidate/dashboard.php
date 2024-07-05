@@ -11,6 +11,10 @@ if (isset($_SESSION['vid'])) {
 	// check if the user has already created election
 	if ($_SESSION['role'] == 'candidate') {
 		// continue
+?>
+
+
+<?php
 		include './elections.php';
 		?>
 	<?php

@@ -2,6 +2,7 @@
 	session_start();
 	include "../../regular_functions.php";
 	include "../../../connect.php";
+	include "../../../sidebar/sidebar.php";
 	displayMessage();
 	if (!isset($_SESSION['vid'])) {
 			$_SESSION['msg'] = "You need to login first!";
@@ -29,25 +30,109 @@
 			$vid = $_POST['vid'];
 			$addAdmin = "INSERT INTO admins(vid) VALUES (
 						(SELECT vid FROM voters WHERE voterID = '$vid'));";
+/* echo $addAdmin; */
+/* die; */
 			try {
-				if (mysqli_query($conn, $addAdmin)) {
+				mysqli_query($conn, $addAdmin); 
 					$_SESSION['msg-success'] = "Added <big>'$vid'</big> as ADMIN successfully!";
-				}
 			} catch(Exception $e) {
 				$_SESSION['msg-error'] = 'Sorry, Voter ID <big>\''.$vid.'\'</big> is INVALID!!';
 			}
 			header("Location: ".$_SERVER['REQUEST_URI']);
 		}
+
 ?>
-<h2 style="text-align: center;">ADMINISTRATOR - Admins</h2>
+<style>
+.admins {
+		font-size: 25px;
+	}
+	table {
+	 font-size: 25px;
+	min-width: 800px;
+}
+	.admins a,label,input{
+		 font-size: 22px;
+}
+	.admins input {
+		padding: 10px;
+		width: 500px;
+}
+	.admins input::placeholder {
+		font-size: 25px;
+		font-style: italic;
+}
+	.admins {
+		max-width: 800px;
+		margin: auto;
+}
+	table td {
+		padding: 20px;
+}
+.admins {
+	padding-top: 50px;
+	max-width: 1200px;
+	margin: auto;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: 600;
+	 text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+.instruction {
+	color: #1B4D3E;
+	font-weight: bold;
+}
+
+.add {
+	width: max-content;
+	border: 1px solid #000000;
+	border-radius: 8px;
+	padding: 12px 15px;
+	text-decoration: none;
+	color: white;
+	background-color: #1B4D3E;
+	font-weight: bold;
+}
+</style>
+
+<div class="main">
+<div class="admins">
+<h2 style="text-align: center; color: red;">ADMINISTRATOR - Admins</h2>
 <hr>
-<br> Add New Admin:<br>
+<br> <span class="instruction">Add New Admin:</span><br>
 <br>
 <form action="" method="post" onsubmit="if (!confirm('Are you sure you want to ADD an ADMIN?')) {event.preventDefault();}">
 <input type="text" name="vid" placeholder="Enter the Voter ID">
 <button hidden>ADD</button>
 </form>
 <hr>
+<br>
 	<u>Admins :</u> <br><br>
 	
 	<table border=2 cellspacing=0 cellpadding=10>
@@ -85,4 +170,5 @@
 		echo "You are not admin!";
 	}
 
-?>
+?></div>
+</div>

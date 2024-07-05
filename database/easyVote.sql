@@ -12,11 +12,6 @@ CREATE TABLE IF NOT EXISTS admins (
 	 FOREIGN KEY (vid) REFERENCES voters (vid) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS election_type (
-    etid int auto_increment primary key,
-    title varchar(100)
-);
-
 CREATE TABLE IF NOT EXISTS voters (
     vid int auto_increment primary key,
     name varchar(100),
@@ -38,7 +33,6 @@ CREATE TABLE IF NOT EXISTS election (
 	 vid int,
 	 FOREIGN KEY (vid) REFERENCES voters (vid) ON DELETE CASCADE ON UPDATE CASCADE,
     title varchar(100),
-	 position varchar(100),
 	 `level` enum('custom', 'national', 'international', 'pending', 'rejected') DEFAULT 'custom',
 	 `view` enum('private', 'public') DEFAULT 'private',
     start_date date,
@@ -76,11 +70,20 @@ CREATE TABLE IF NOT EXISTS parties (
 
 CREATE TABLE IF NOT EXISTS registered_voters (
     rvid int auto_increment primary key,
-    vid int ,
-    FOREIGN KEY (vid) REFERENCES voters (vid),
-    eid int ,
-    FOREIGN KEY (eid) REFERENCES election (eid),
-	 authenticated enum('pending', 'yes', 'no')
+    vid varchar(100),
+    FOREIGN KEY (vid) REFERENCES voters (voterID),
+    eid varchar(100),
+    FOREIGN KEY (eid) REFERENCES election (electionID),
+	 UNIQUE (vid, eid)
+);
+
+CREATE TABLE IF NOT EXISTS registered_candidates (
+    rcid int auto_increment primary key,
+    vid varchar(100),
+    FOREIGN KEY (vid) REFERENCES voters (voterID),
+    rid int,
+    FOREIGN KEY (rid) REFERENCES roles (rid),
+	 UNIQUE (vid, rid)
 );
 
 /*CREATE TABLE IF NOT EXISTS candidate (
@@ -105,9 +108,9 @@ CREATE TABLE IF NOT EXISTS candidate(
     eid varchar(100),
     FOREIGN KEY (eid) REFERENCES election (electionID) ON DELETE CASCADE ON UPDATE CASCADE,
     pid varchar(100),
-    FOREIGN KEY (pid) REFERENCES parties (partyID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (pid) REFERENCES parties (partyID) ON DELETE RESTRICT ON UPDATE CASCADE,
     rid int,
-    FOREIGN KEY (rid) REFERENCES roles (rid) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (rid) REFERENCES roles (rid) ON DELETE RESTRICT ON UPDATE CASCADE,
     lid int,
     FOREIGN KEY (lid) REFERENCES locations (lid) ON DELETE CASCADE ON UPDATE CASCADE,
     verified enum('pending', 'accepted', 'rejected') DEFAULT 'pending',
@@ -138,13 +141,14 @@ CREATE TABLE IF NOT EXISTS election_manager (
     FOREIGN KEY (vid) REFERENCES voters (vid),
     eid int ,
     FOREIGN KEY (eid) REFERENCES election (eid),
-	verified enum('pending', 'accepted', 'rejected') DEFAULT 'rejected'
+	unique (vid, eid)
 );
 
 CREATE TABLE IF NOT EXISTS faq (
 	qid int auto_increment primary key,
 	 question TEXT,
 	 answer LONGTEXT,
+	 `role` enum('anyone', 'voter', 'candidate', 'admin'),
 	 category varchar(100)
 );
 
